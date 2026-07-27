@@ -37,7 +37,7 @@ npm run dev
 
 ### 3. 访问应用
 
-打开浏览器访问 http://localhost:5173
+打开浏览器访问 https://mememiu.github.io/compliance-training-agent/
 
 ## 项目结构
 
