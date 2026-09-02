@@ -1155,9 +1155,12 @@ select {
   letter-spacing: -0.035em;
 }
 
-.training-welcome h1 span {
-  display: block;
+.training-welcome h1 > .training-welcome__title-line--secondary {
   color: #62747b;
+}
+
+.training-welcome__title-line .split-char {
+  display: inline-block;
 }
 
 .training-welcome__description {

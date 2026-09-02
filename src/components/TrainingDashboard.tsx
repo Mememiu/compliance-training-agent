@@ -17,6 +17,7 @@ import { useTraining } from '../hooks/useTraining';
 import { DashboardCourse } from '../types';
 import { ICON_MAP } from '../utils/iconMap';
 import { TextRotate } from './fancy/TextRotate';
+import SplitText from './react-bits/SplitText';
 
 const COURSE_PALETTES = [
   { surface: '#f6d5d0', ink: '#7e302b' },
@@ -96,8 +97,28 @@ export function TrainingDashboard() {
           <div className="training-welcome__copy">
             <p className="training-welcome__eyebrow">今天，从一个清晰的下一步开始</p>
             <h1 id="training-welcome-title">
-              把知识变成
-              <span>可以跟着走的路径</span>
+              <SplitText
+                tag="span"
+                text="把知识变成"
+                className="training-welcome__title-line training-welcome__title-line--primary"
+                style={{ display: 'block' }}
+                delay={38}
+                duration={0.8}
+                threshold={0.2}
+                rootMargin="-80px"
+                textAlign="left"
+              />
+              <SplitText
+                tag="span"
+                text="可以跟着走的路径"
+                className="training-welcome__title-line training-welcome__title-line--secondary"
+                style={{ display: 'block' }}
+                delay={34}
+                duration={0.9}
+                threshold={0.2}
+                rootMargin="-80px"
+                textAlign="left"
+              />
             </h1>
             <p className="training-welcome__description">
               课程、场景与考核都在这里。用一点时间，完成今天最重要的学习动作。
