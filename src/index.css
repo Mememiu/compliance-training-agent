@@ -982,7 +982,7 @@ select {
   border-radius: 9px !important;
 }
 
-.app-sidebar__brand span {
+.app-sidebar__brand > div > span {
   color: var(--score-ink) !important;
   font-family: 'Noto Serif SC', 'Songti SC', serif;
 }
