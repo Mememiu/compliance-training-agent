@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ElementType } from 'react';
+import { createElement, useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
@@ -7,9 +7,10 @@ import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 
 type SplitTextVars = Record<string, unknown>;
+type SplitTextTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 
 export interface SplitTextProps {
-  tag?: ElementType;
+  tag?: SplitTextTag;
   text: string;
   className?: string;
   style?: CSSProperties;
@@ -174,9 +175,13 @@ export default function SplitText({
     ...style,
   };
 
-  return (
-    <Tag ref={ref} style={baseStyle} className={`split-parent ${className}`.trim()}>
-      {text}
-    </Tag>
+  return createElement(
+    Tag,
+    {
+      ref: ref as Ref<HTMLElement>,
+      style: baseStyle,
+      className: `split-parent ${className}`.trim(),
+    },
+    text,
   );
 }
