@@ -24,7 +24,7 @@ export function NewChatView({
   onSendSuggestion,
 }: NewChatViewProps) {
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="new-chat-view flex flex-col items-center h-full">
       <div className="w-full max-w-lg">
         {/* Logo 和标题 */}
         <div className="text-center mb-8">

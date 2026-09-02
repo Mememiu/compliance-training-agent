@@ -101,7 +101,11 @@ export function TrainingDashboard() {
                 tag="span"
                 text="把知识变成"
                 className="training-welcome__title-line training-welcome__title-line--primary"
-                style={{ display: 'block' }}
+                style={{
+                  display: 'block',
+                  overflow: 'visible',
+                  clipPath: 'inset(0 -2em 0 0)',
+                }}
                 delay={38}
                 duration={0.8}
                 threshold={0.2}
@@ -112,7 +116,11 @@ export function TrainingDashboard() {
                 tag="span"
                 text="可以跟着走的路径"
                 className="training-welcome__title-line training-welcome__title-line--secondary"
-                style={{ display: 'block' }}
+                style={{
+                  display: 'block',
+                  overflow: 'visible',
+                  clipPath: 'inset(0 -2em 0 0)',
+                }}
                 delay={34}
                 duration={0.9}
                 threshold={0.2}

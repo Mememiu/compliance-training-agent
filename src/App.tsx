@@ -9,7 +9,6 @@ import { useModels } from './hooks/useModels';
 import { useChat } from './hooks/useChat';
 import { PermissionMode } from './types';
 
-import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { SettingsPage } from './components/SettingsPage';
 import { ChatPage } from './pages/ChatPage';
@@ -149,11 +148,6 @@ function AppContent() {
     navigate('/chat');
   }, [navigate]);
 
-  // Sidebar 状态
-  const [sidebarOpen, setSidebarOpen] = useState(() =>
-    typeof window === 'undefined' ? true : window.innerWidth > 768
-  );
-
   // 权限模式状态
   const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
 
@@ -175,24 +169,6 @@ function AppContent() {
       className="app-shell flex h-screen w-screen"
       style={{ backgroundColor: 'var(--td-bg-color-page)' }}
     >
-      {/* 侧边栏 */}
-      <Sidebar
-        sessions={sessions}
-        currentSessionId={currentSessionId}
-        isSettingsPage={isSettingsPage}
-        isChatPage={isChatPage}
-        isTrainingPage={isTrainingPage}
-        sidebarOpen={sidebarOpen}
-        agents={agents}
-        getAgent={getAgent}
-        onNewChat={handleNewChat}
-        onSelectSession={handleSelectSession}
-        onDeleteSession={handleDeleteSession}
-        onOpenSettings={handleOpenSettings}
-        onNavigateToTraining={handleNavigateToTraining}
-        onNavigateToChat={handleNavigateToChat}
-      />
-
       {/* 主内容区 */}
       <main
         className="flex-1 flex flex-col min-w-0"
@@ -204,12 +180,17 @@ function AppContent() {
           isChatPage={isChatPage}
           isTrainingPage={isTrainingPage}
           pageTitle={pageTitle}
-          sidebarOpen={sidebarOpen}
           theme={theme}
           currentSession={currentSession}
           currentAgent={currentAgent}
           models={models}
-          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          sessions={sessions}
+          onNewChat={handleNewChat}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={handleDeleteSession}
+          onOpenSettings={handleOpenSettings}
+          onNavigateToTraining={handleNavigateToTraining}
+          onNavigateToChat={handleNavigateToChat}
           onToggleTheme={toggleTheme}
           onRefreshModels={fetchModels}
         />
