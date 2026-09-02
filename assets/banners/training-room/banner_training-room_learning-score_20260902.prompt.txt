@@ -1,0 +1,6 @@
+Asset: banner_training-room_learning-score_20260902.png
+Type: website hero / campaign banner
+Canvas: 1920x640
+Art direction: minimalist editorial learning score, deep charcoal ink, warm paper-derived neutrals, stepped notation blocks, one fluorescent lime current-step marker, generous reading space, no gradients, no decorative blobs, no stock photography.
+Composition: replaceable product name and learning promise in the left safe zone; functional learning-path notation and current-step marker on the right.
+Production note: composed as HTML/CSS geometry from the Learning Score brand system; no external image source or generated photography.

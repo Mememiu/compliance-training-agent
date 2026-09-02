@@ -5,7 +5,7 @@ const STORAGE_KEY = 'defaultModel';
 
 // 静态模型列表（纯前端，无需后端）
 const STATIC_MODELS: Model[] = [
-  { modelId: 'compliance-ai', name: '合规培训助手', description: '基于课程内容的本地知识库' },
+  { modelId: 'compliance-ai', name: '企业学习助手', description: '基于课程内容的本地知识库' },
 ];
 
 export function useModels() {

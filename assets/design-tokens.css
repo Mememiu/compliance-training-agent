@@ -1,0 +1,108 @@
+/* Design Tokens - Auto-generated */
+/* Do not edit directly - modify tokens.json instead */
+
+/* === PRIMITIVES === */
+:root {
+  --primitive-color-score-ink: #182126;
+  --primitive-color-score-ink-deep: #0F1518;
+  --primitive-color-score-ink-soft: #34434A;
+  --primitive-color-steel-note: #B9C6CC;
+  --primitive-color-steel-mist: #E4EAEC;
+  --primitive-color-paper-ground: #F5F2EA;
+  --primitive-color-paper-bright: #FCFBF7;
+  --primitive-color-signal-lime: #D9E45F;
+  --primitive-color-signal-lime-deep: #AAB52F;
+  --primitive-color-signal-lime-wash: #F0F4BE;
+  --primitive-color-complete-green: #4F8F71;
+  --primitive-color-attention-amber: #B68128;
+  --primitive-color-action-red: #B94B43;
+  --primitive-color-info-blue: #4E7FA3;
+  --primitive-color-rule: #D4DDDF;
+  --primitive-color-white: #FFFFFF;
+  --primitive-spacing-0: 0;
+  --primitive-spacing-1: 4px;
+  --primitive-spacing-2: 8px;
+  --primitive-spacing-3: 12px;
+  --primitive-spacing-4: 16px;
+  --primitive-spacing-6: 24px;
+  --primitive-spacing-8: 32px;
+  --primitive-spacing-12: 48px;
+  --primitive-spacing-16: 64px;
+  --primitive-fontSize-label: 13px;
+  --primitive-fontSize-body: 16px;
+  --primitive-fontSize-title: 20px;
+  --primitive-fontSize-heading: 28px;
+  --primitive-fontSize-headline: 36px;
+  --primitive-fontSize-display: 48px;
+  --primitive-radius-none: 0;
+  --primitive-radius-sm: 4px;
+  --primitive-radius-md: 8px;
+  --primitive-radius-lg: 12px;
+  --primitive-radius-full: 9999px;
+  --primitive-shadow-none: none;
+  --primitive-shadow-surface: 0 8px 24px rgb(24 33 38 / 0.08);
+  --primitive-shadow-dialog: 0 16px 40px rgb(15 21 24 / 0.16);
+  --primitive-duration-fast: 120ms;
+  --primitive-duration-normal: 180ms;
+  --primitive-duration-slow: 280ms;
+}
+
+/* === SEMANTIC === */
+:root {
+  --color-background: #F5F2EA;
+  --color-surface: #FCFBF7;
+  --color-foreground: #182126;
+  --color-foreground-muted: #34434A;
+  --color-border: #D4DDDF;
+  --color-primary: #182126;
+  --color-primary-hover: #0F1518;
+  --color-primary-foreground: #FCFBF7;
+  --color-signal: #D9E45F;
+  --color-signal-hover: #AAB52F;
+  --color-signal-wash: #F0F4BE;
+  --color-success: #4F8F71;
+  --color-warning: #B68128;
+  --color-error: #B94B43;
+  --color-info: #4E7FA3;
+  --spacing-component: 16px;
+  --spacing-section: 48px;
+}
+
+/* === COMPONENTS === */
+:root {
+  --button-primary-bg: #182126;
+  --button-primary-fg: #FCFBF7;
+  --button-primary-hover-bg: #0F1518;
+  --button-primary-padding-x: 16px;
+  --button-primary-padding-y: 12px;
+  --button-primary-radius: 4px;
+  --button-primary-min-height: 44px;
+  --button-signal-bg: #D9E45F;
+  --button-signal-fg: #182126;
+  --button-signal-hover-bg: #AAB52F;
+  --button-signal-padding-x: 16px;
+  --button-signal-padding-y: 12px;
+  --button-signal-radius: 4px;
+  --button-signal-min-height: 44px;
+  --field-bg: #FCFBF7;
+  --field-fg: #182126;
+  --field-border: #D4DDDF;
+  --field-focus-ring: #AAB52F;
+  --field-padding-x: 12px;
+  --field-padding-y: 12px;
+  --field-radius: 4px;
+  --surface-bg: #FCFBF7;
+  --surface-fg: #182126;
+  --surface-border: #D4DDDF;
+  --surface-padding: 24px;
+  --surface-radius: 8px;
+}
+
+/* === DARK MODE === */
+.dark {
+  --color-background: #0F1518;
+  --color-surface: #182126;
+  --color-foreground: #FCFBF7;
+  --color-foreground-muted: #B9C6CC;
+  --color-border: #34434A;
+}

@@ -48,6 +48,7 @@ export function CourseDetailPage() {
   }
 
   const Icon = ICON_MAP[currentCourse.icon] || BookOpen;
+  const courseTone = 'var(--td-brand-color)';
   const courseProgress = progress[currentCourse.id];
   const isCompleted = courseProgress?.status === 'completed' && courseProgress?.passed;
 
@@ -108,7 +109,7 @@ export function CourseDetailPage() {
 
         {/* 课程头部 */}
         <div
-          className="rounded-2xl p-6 mb-6"
+          className="course-detail-hero rounded-lg p-6 mb-6"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
@@ -116,14 +117,14 @@ export function CourseDetailPage() {
         >
           <div className="flex items-start gap-4 mb-4">
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: currentCourse.color + '15' }}
+              className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: 'var(--td-bg-color-component)' }}
             >
-              <Icon size={32} color={currentCourse.color} />
+              <Icon size={32} color={courseTone} />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <Tag size="small" variant="light" style={{ color: currentCourse.color, borderColor: currentCourse.color + '30' }}>
+                <Tag size="small" variant="light" style={{ color: 'var(--td-text-color-primary)', borderColor: 'var(--td-component-stroke)' }}>
                   {currentCourse.difficulty}
                 </Tag>
                 <Tag size="small" variant="outline">
@@ -179,7 +180,7 @@ export function CourseDetailPage() {
               <Progress
                 percentage={courseProgress.progress}
                 size="small"
-                color={currentCourse.color}
+                color={courseTone}
               />
             </div>
           )}
@@ -226,12 +227,12 @@ export function CourseDetailPage() {
               return (
                 <div
                   key={lesson.id}
-                  className="rounded-xl p-4 flex items-center gap-4 cursor-pointer transition-all duration-200"
+                  className="course-lesson-row rounded-lg p-4 flex items-center gap-4 cursor-pointer transition-all duration-200"
                   style={{
-                    backgroundColor: isCurrent
-                      ? currentCourse.color + '08'
+                      backgroundColor: isCurrent
+                      ? 'var(--td-brand-color-light)'
                       : 'var(--td-bg-color-container)',
-                    border: `1px solid ${isCurrent ? currentCourse.color + '30' : 'var(--td-component-stroke)'}`,
+                    border: `1px solid ${isCurrent ? 'var(--td-brand-color)' : 'var(--td-component-stroke)'}`,
                     opacity: isLocked ? 0.6 : 1,
                   }}
                   onClick={() => handleLessonClick(lesson.id, index)}
@@ -240,14 +241,14 @@ export function CourseDetailPage() {
                     className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{
                       backgroundColor: isDone
-                        ? '#2BA47115'
+                        ? 'var(--td-success-color-1)'
                         : isCurrent
-                        ? currentCourse.color + '15'
+                        ? 'var(--td-brand-color-light)'
                         : 'var(--td-bg-color-component)',
                     }}
                   >
                     {isDone ? (
-                      <CheckCircle size={18} color="#2BA471" />
+                      <CheckCircle size={18} color="var(--td-success-color)" />
                     ) : isLocked ? (
                       <Lock size={16} color="var(--td-text-color-secondary)" />
                     ) : (
@@ -278,7 +279,7 @@ export function CourseDetailPage() {
                     <PlayCircle
                       size={20}
                       className="flex-shrink-0"
-                      style={{ color: currentCourse.color }}
+                      style={{ color: courseTone }}
                     />
                   )}
                 </div>
@@ -289,17 +290,17 @@ export function CourseDetailPage() {
 
         {/* 测验入口 */}
         <div
-          className="rounded-xl p-5 flex items-center gap-4"
+          className="rounded-lg p-5 flex items-center gap-4"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
           }}
         >
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ backgroundColor: '#0052D915' }}
+            className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+            style={{ backgroundColor: 'var(--td-bg-color-component)' }}
           >
-            <FileQuestion size={24} color="#0052D9" />
+            <FileQuestion size={24} color={courseTone} />
           </div>
           <div className="flex-1">
             <h3 className="text-sm font-semibold mb-1" style={{ color: 'var(--td-text-color-primary)' }}>

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "brand": "Learning Score Training Room",
+  "primitive": {
+    "color": {
+      "score-ink": { "$value": "#182126", "$type": "color" },
+      "score-ink-deep": { "$value": "#0F1518", "$type": "color" },
+      "score-ink-soft": { "$value": "#34434A", "$type": "color" },
+      "steel-note": { "$value": "#B9C6CC", "$type": "color" },
+      "steel-mist": { "$value": "#E4EAEC", "$type": "color" },
+      "paper-ground": { "$value": "#F5F2EA", "$type": "color" },
+      "paper-bright": { "$value": "#FCFBF7", "$type": "color" },
+      "signal-lime": { "$value": "#D9E45F", "$type": "color" },
+      "signal-lime-deep": { "$value": "#AAB52F", "$type": "color" },
+      "signal-lime-wash": { "$value": "#F0F4BE", "$type": "color" },
+      "complete-green": { "$value": "#4F8F71", "$type": "color" },
+      "attention-amber": { "$value": "#B68128", "$type": "color" },
+      "action-red": { "$value": "#B94B43", "$type": "color" },
+      "info-blue": { "$value": "#4E7FA3", "$type": "color" },
+      "rule": { "$value": "#D4DDDF", "$type": "color" },
+      "white": { "$value": "#FFFFFF", "$type": "color" }
+    },
+    "spacing": {
+      "0": { "$value": "0", "$type": "dimension" },
+      "1": { "$value": "4px", "$type": "dimension" },
+      "2": { "$value": "8px", "$type": "dimension" },
+      "3": { "$value": "12px", "$type": "dimension" },
+      "4": { "$value": "16px", "$type": "dimension" },
+      "6": { "$value": "24px", "$type": "dimension" },
+      "8": { "$value": "32px", "$type": "dimension" },
+      "12": { "$value": "48px", "$type": "dimension" },
+      "16": { "$value": "64px", "$type": "dimension" }
+    },
+    "fontSize": {
+      "label": { "$value": "13px", "$type": "dimension" },
+      "body": { "$value": "16px", "$type": "dimension" },
+      "title": { "$value": "20px", "$type": "dimension" },
+      "heading": { "$value": "28px", "$type": "dimension" },
+      "headline": { "$value": "36px", "$type": "dimension" },
+      "display": { "$value": "48px", "$type": "dimension" }
+    },
+    "radius": {
+      "none": { "$value": "0", "$type": "dimension" },
+      "sm": { "$value": "4px", "$type": "dimension" },
+      "md": { "$value": "8px", "$type": "dimension" },
+      "lg": { "$value": "12px", "$type": "dimension" },
+      "full": { "$value": "9999px", "$type": "dimension" }
+    },
+    "shadow": {
+      "none": { "$value": "none", "$type": "shadow" },
+      "surface": { "$value": "0 8px 24px rgb(24 33 38 / 0.08)", "$type": "shadow" },
+      "dialog": { "$value": "0 16px 40px rgb(15 21 24 / 0.16)", "$type": "shadow" }
+    },
+    "duration": {
+      "fast": { "$value": "120ms", "$type": "duration" },
+      "normal": { "$value": "180ms", "$type": "duration" },
+      "slow": { "$value": "280ms", "$type": "duration" }
+    }
+  },
+  "semantic": {
+    "color": {
+      "background": { "$value": "{primitive.color.paper-ground}", "$type": "color" },
+      "surface": { "$value": "{primitive.color.paper-bright}", "$type": "color" },
+      "foreground": { "$value": "{primitive.color.score-ink}", "$type": "color" },
+      "foreground-muted": { "$value": "{primitive.color.score-ink-soft}", "$type": "color" },
+      "border": { "$value": "{primitive.color.rule}", "$type": "color" },
+      "primary": { "$value": "{primitive.color.score-ink}", "$type": "color" },
+      "primary-hover": { "$value": "{primitive.color.score-ink-deep}", "$type": "color" },
+      "primary-foreground": { "$value": "{primitive.color.paper-bright}", "$type": "color" },
+      "signal": { "$value": "{primitive.color.signal-lime}", "$type": "color" },
+      "signal-hover": { "$value": "{primitive.color.signal-lime-deep}", "$type": "color" },
+      "signal-wash": { "$value": "{primitive.color.signal-lime-wash}", "$type": "color" },
+      "success": { "$value": "{primitive.color.complete-green}", "$type": "color" },
+      "warning": { "$value": "{primitive.color.attention-amber}", "$type": "color" },
+      "error": { "$value": "{primitive.color.action-red}", "$type": "color" },
+      "info": { "$value": "{primitive.color.info-blue}", "$type": "color" }
+    },
+    "spacing": {
+      "component": { "$value": "{primitive.spacing.4}", "$type": "dimension" },
+      "section": { "$value": "{primitive.spacing.12}", "$type": "dimension" }
+    }
+  },
+  "component": {
+    "button-primary": {
+      "bg": { "$value": "{semantic.color.primary}", "$type": "color" },
+      "fg": { "$value": "{semantic.color.primary-foreground}", "$type": "color" },
+      "hover-bg": { "$value": "{semantic.color.primary-hover}", "$type": "color" },
+      "padding-x": { "$value": "{primitive.spacing.4}", "$type": "dimension" },
+      "padding-y": { "$value": "{primitive.spacing.3}", "$type": "dimension" },
+      "radius": { "$value": "{primitive.radius.sm}", "$type": "dimension" },
+      "min-height": { "$value": "44px", "$type": "dimension" }
+    },
+    "button-signal": {
+      "bg": { "$value": "{semantic.color.signal}", "$type": "color" },
+      "fg": { "$value": "{semantic.color.foreground}", "$type": "color" },
+      "hover-bg": { "$value": "{semantic.color.signal-hover}", "$type": "color" },
+      "padding-x": { "$value": "{primitive.spacing.4}", "$type": "dimension" },
+      "padding-y": { "$value": "{primitive.spacing.3}", "$type": "dimension" },
+      "radius": { "$value": "{primitive.radius.sm}", "$type": "dimension" },
+      "min-height": { "$value": "44px", "$type": "dimension" }
+    },
+    "field": {
+      "bg": { "$value": "{semantic.color.surface}", "$type": "color" },
+      "fg": { "$value": "{semantic.color.foreground}", "$type": "color" },
+      "border": { "$value": "{semantic.color.border}", "$type": "color" },
+      "focus-ring": { "$value": "{semantic.color.signal-hover}", "$type": "color" },
+      "padding-x": { "$value": "{primitive.spacing.3}", "$type": "dimension" },
+      "padding-y": { "$value": "{primitive.spacing.3}", "$type": "dimension" },
+      "radius": { "$value": "{primitive.radius.sm}", "$type": "dimension" }
+    },
+    "surface": {
+      "bg": { "$value": "{semantic.color.surface}", "$type": "color" },
+      "fg": { "$value": "{semantic.color.foreground}", "$type": "color" },
+      "border": { "$value": "{semantic.color.border}", "$type": "color" },
+      "padding": { "$value": "{primitive.spacing.6}", "$type": "dimension" },
+      "radius": { "$value": "{primitive.radius.md}", "$type": "dimension" }
+    }
+  },
+  "dark": {
+    "semantic": {
+      "color": {
+        "background": { "$value": "{primitive.color.score-ink-deep}", "$type": "color" },
+        "surface": { "$value": "{primitive.color.score-ink}", "$type": "color" },
+        "foreground": { "$value": "{primitive.color.paper-bright}", "$type": "color" },
+        "foreground-muted": { "$value": "{primitive.color.steel-note}", "$type": "color" },
+        "border": { "$value": "{primitive.color.score-ink-soft}", "$type": "color" }
+      }
+    }
+  }
+}

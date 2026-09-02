@@ -1,4 +1,3 @@
-import { Input } from 'tdesign-react';
 import { MessageSquare } from 'lucide-react';
 import { APP_CONFIG } from '../config';
 import { Agent, PermissionMode } from '../types';
@@ -29,22 +28,21 @@ export function NewChatView({
       <div className="w-full max-w-lg">
         {/* Logo 和标题 */}
         <div className="text-center mb-8">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-lg mx-auto"
-            style={{
-              background: 'linear-gradient(135deg, var(--td-brand-color), var(--td-brand-color-hover))'
-            }}
-          >
-            <span className="text-3xl font-bold text-white">{APP_CONFIG.nameInitial}</span>
+          <div className="learning-score-chat-mark mb-4 mx-auto" aria-hidden="true">
+            <span className="learning-score-chat-mark__line" />
+            <span className="learning-score-chat-mark__block is-done" />
+            <span className="learning-score-chat-mark__block is-current" />
+            <span className="learning-score-chat-mark__block" />
+            <span className="learning-score-chat-mark__label">{APP_CONFIG.nameInitial}</span>
           </div>
           <h2
             className="text-2xl font-semibold mb-2"
             style={{ color: 'var(--td-text-color-primary)' }}
           >
-            AI 合规助手
+            AI 学习助手
           </h2>
           <p style={{ color: 'var(--td-text-color-secondary)' }}>
-            有关合规培训的问题，随时向我提问
+            把课程里的知识带回到真实工作场景
           </p>
         </div>
 
@@ -58,9 +56,10 @@ export function NewChatView({
           </div>
           <div className="grid grid-cols-1 gap-2">
             {SUGGESTED_QUESTIONS.map((q, i) => (
-              <div
+              <button
                 key={i}
-                className="p-3 rounded-lg text-sm cursor-pointer transition-all"
+                type="button"
+                className="new-chat-suggestion p-3 rounded-lg text-sm cursor-pointer transition-all text-left"
                 style={{
                   backgroundColor: 'var(--td-bg-color-component)',
                   border: '1px solid var(--td-component-stroke)',
@@ -77,7 +76,7 @@ export function NewChatView({
                 }}
               >
                 {q}
-              </div>
+              </button>
             ))}
           </div>
         </div>

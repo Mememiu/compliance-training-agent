@@ -38,8 +38,8 @@ const PRESET_ICONS = [
 ];
 
 const PRESET_COLORS = [
-  '#0052d9', '#0594fa', '#00a870', '#ed7b2f', 
-  '#e34d59', '#a25eb5', '#5c6bc0', '#26a69a'
+  '#182126', '#4E7FA3', '#4F8F71', '#B68128',
+  '#B94B43', '#617078', '#34434A', '#AAB52F'
 ];
 
 const PRESET_TEMPLATES = [
@@ -48,28 +48,28 @@ const PRESET_TEMPLATES = [
     description: '专注于编程和代码相关任务',
     systemPrompt: '你是一个专业的编程助手。你擅长编写、审查和解释代码。请提供清晰、高效且符合最佳实践的代码解决方案。在解释时，请考虑代码的可读性、性能和可维护性。',
     icon: 'Code',
-    color: '#0594fa',
+    color: '#4E7FA3',
   },
   {
     name: '写作助手',
     description: '帮助撰写和优化各类文档',
     systemPrompt: '你是一个专业的写作助手。你擅长撰写、编辑和优化各类文档，包括文章、报告、邮件等。请帮助用户提升文字表达的清晰度、逻辑性和吸引力。',
     icon: 'FileText',
-    color: '#00a870',
+    color: '#4F8F71',
   },
   {
     name: '翻译助手',
     description: '提供高质量的多语言翻译',
     systemPrompt: '你是一个专业的翻译助手。你精通多种语言，能够提供准确、自然、符合语境的翻译。请在翻译时保持原文的语气和风格，同时确保目标语言的地道表达。',
     icon: 'Globe',
-    color: '#ed7b2f',
+    color: '#B68128',
   },
   {
     name: '创意助手',
     description: '激发灵感，提供创意建议',
     systemPrompt: '你是一个富有创意的助手。你善于头脑风暴、提供创新想法和独特视角。请帮助用户突破思维定式，探索新的可能性，激发创造力。',
     icon: 'Lightbulb',
-    color: '#a25eb5',
+    color: '#617078',
   },
 ];
 
@@ -88,7 +88,7 @@ export function AgentConfigDialog({
     description: '',
     systemPrompt: '',
     icon: 'Bot',
-    color: '#0052d9',
+    color: '#182126',
   });
 
   const resetForm = () => {
@@ -97,7 +97,7 @@ export function AgentConfigDialog({
       description: '',
       systemPrompt: '',
       icon: 'Bot',
-      color: '#0052d9',
+      color: '#182126',
     });
     setEditingAgent(null);
     setIsCreating(false);
@@ -111,7 +111,7 @@ export function AgentConfigDialog({
       description: agent.description || '',
       systemPrompt: agent.systemPrompt,
       icon: agent.icon || 'Bot',
-      color: agent.color || '#0052d9',
+      color: agent.color || '#182126',
     });
     setIsCreating(true);
   };
@@ -306,7 +306,7 @@ export function AgentConfigDialog({
                         <div className="flex items-center gap-3">
                           <div 
                             className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                            style={{ backgroundColor: agent.color || '#0052d9' }}
+                            style={{ backgroundColor: agent.color || '#182126' }}
                           >
                             <Icon size={20} color="white" />
                           </div>

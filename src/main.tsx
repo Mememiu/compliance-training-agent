@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import App from './App';
 import { APP_CONFIG } from './config';
 import 'tdesign-react/esm/style/index.js';
+import '../assets/design-tokens.css';
 import './index.css';
 
 // 设置页面标题

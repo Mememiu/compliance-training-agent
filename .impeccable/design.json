@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-02T02:50:00.000Z",
+  "title": "Design System: Learning Score Training Room",
+  "extensions": {
+    "colorMeta": {
+      "score-ink": { "role": "primary", "displayName": "Score Ink", "canonical": "#182126", "tonalRamp": ["#0F1518", "#182126", "#253238", "#34434A", "#617078", "#9AAAB0", "#D4DDDF", "#FCFBF7"] },
+      "paper-ground": { "role": "neutral", "displayName": "Paper Ground", "canonical": "#F5F2EA", "tonalRamp": ["#182126", "#34434A", "#617078", "#B9C6CC", "#D4DDDF", "#E4EAEC", "#F5F2EA", "#FCFBF7"] },
+      "signal-lime": { "role": "tertiary", "displayName": "Signal Lime", "canonical": "#D9E45F", "tonalRamp": ["#4B5110", "#6F7917", "#8E9B22", "#AAB52F", "#C0CC45", "#D9E45F", "#E8ED9E", "#F0F4BE"] },
+      "steel-note": { "role": "secondary", "displayName": "Steel Note", "canonical": "#B9C6CC", "tonalRamp": ["#34434A", "#4E5E66", "#617078", "#7D8C92", "#98A8AE", "#B9C6CC", "#D0DADD", "#E4EAEC"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Noto Sans SC Display", "purpose": "Welcome headlines and major learning milestones." },
+      "body": { "displayName": "Noto Sans SC Body", "purpose": "Readable course, lesson, and instruction copy." },
+      "data": { "displayName": "IBM Plex Mono Data", "purpose": "IDs, dates, versions, timers, and measured progress." }
+    },
+    "shadows": [
+      { "name": "surface-lift", "value": "0 8px 24px rgb(24 33 38 / 0.08)", "purpose": "Separate a reading surface from the paper ground when needed." },
+      { "name": "dialog-lift", "value": "0 16px 40px rgb(15 21 24 / 0.16)", "purpose": "Protected focus for a modal or dialog." }
+    ],
+    "motion": [
+      { "name": "notation-step", "value": "180ms steps(2, end)", "purpose": "A module or marker advances in a short two-frame notation step." },
+      { "name": "state-transition", "value": "180ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Buttons and fields move between states without theatrical motion." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "640px" },
+      { "name": "reading", "value": "900px" },
+      { "name": "wide", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Signal Button",
+      "kind": "button",
+      "refersTo": "button-signal",
+      "description": "The one primary learning action on a surface.",
+      "html": "<button class=\"ds-signal-button\">继续学习</button>",
+      "css": ".ds-signal-button { background: var(--color-signal); color: var(--color-foreground); border: 1px solid transparent; border-radius: 4px; min-height: 44px; padding: 12px 18px; font: 600 13px/1.4 'Noto Sans SC', sans-serif; cursor: pointer; transition: background 180ms ease, box-shadow 180ms ease; } .ds-signal-button:hover { background: var(--color-signal-hover); } .ds-signal-button:focus-visible { outline: 2px solid var(--color-signal-hover); outline-offset: 2px; } .ds-signal-button:active { box-shadow: inset 0 2px 0 rgb(24 33 38 / 0.16); }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A confident secondary action when the signal button is already present.",
+      "html": "<button class=\"ds-primary-button\">查看课程</button>",
+      "css": ".ds-primary-button { background: var(--color-primary); color: var(--color-primary-foreground); border: 1px solid var(--color-primary); border-radius: 4px; min-height: 44px; padding: 12px 18px; font: 600 13px/1.4 'Noto Sans SC', sans-serif; cursor: pointer; transition: background 180ms ease, box-shadow 180ms ease; } .ds-primary-button:hover { background: var(--color-primary-hover); } .ds-primary-button:focus-visible { outline: 2px solid var(--color-signal-hover); outline-offset: 2px; }"
+    },
+    {
+      "name": "Paper Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "A quiet field that belongs to the paper reading surface.",
+      "html": "<input class=\"ds-paper-field\" placeholder=\"搜索课程\" />",
+      "css": ".ds-paper-field { background: var(--color-surface); color: var(--color-foreground); border: 1px solid var(--color-border); border-radius: 4px; min-height: 44px; padding: 12px 14px; font: 400 16px/1.5 'Noto Sans SC', sans-serif; transition: border-color 180ms ease, box-shadow 180ms ease; } .ds-paper-field::placeholder { color: var(--color-foreground-muted); } .ds-paper-field:focus { border-color: var(--color-signal-hover); box-shadow: 0 0 0 2px var(--color-signal-wash); outline: none; }"
+    },
+    {
+      "name": "Learning Path",
+      "kind": "custom",
+      "refersTo": "learning-path",
+      "description": "The signature ordered path that makes the next learning step legible.",
+      "html": "<div class=\"ds-learning-path\" aria-label=\"学习路径\"><span class=\"ds-path-mark is-done\"></span><span class=\"ds-path-mark is-current\"></span><span class=\"ds-path-mark is-locked\"></span></div>",
+      "css": ".ds-learning-path { display: flex; align-items: center; gap: 8px; min-height: 16px; } .ds-path-mark { display: block; height: 8px; width: 48px; border-radius: 2px; background: var(--color-steel-note); } .ds-path-mark.is-done { background: var(--color-success); } .ds-path-mark.is-current { width: 72px; background: var(--color-signal); box-shadow: 0 0 0 2px var(--color-signal-wash); } .ds-path-mark.is-locked { opacity: 0.65; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Learning Score",
+    "overview": "This system treats training as a readable score rather than a stack of generic cards. Warm paper is the quiet reading ground; deep score ink carries hierarchy; stepped notation blocks show sequence and dependency; one fluorescent lime marker identifies the current action. The visual world should feel authored and operational, with enough character to be remembered but enough restraint for sensitive policy topics and long-form lessons.\n\nThe product name is intentionally not embedded in the mark. The identity survives a future rename and can stretch from compliance into security, policy, business, culture, and other company learning topics.",
+    "keyCharacteristics": ["Notation is functional: it encodes order, progress, version, focus, or dependency.", "One high-signal lime state is rarer than the ink and paper field.", "Dense information is organized by staff lines, margin notes, and stepped rhythm rather than nested card stacks."],
+    "rules": [
+      { "name": "The One Marker Rule", "body": "Signal Lime is the only color allowed to announce “this is the next thing.” Use semantic colors for status, never for primary action.", "section": "colors" },
+      { "name": "The Two Voices Rule", "body": "Sans carries meaning; mono carries measurement. Do not use mono for general copy.", "section": "typography" },
+      { "name": "The Flat-by-Default Rule", "body": "A surface starts flat. Elevation appears only when a state needs separation.", "section": "elevation" }
+    ],
+    "dos": ["Do use the current-step marker to make the next learning action obvious within seconds.", "Do let real course titles, durations, quiz states, and version notes become the visual content.", "Do preserve a quiet paper reading surface for long lessons.", "Do use diagrams and annotated examples before stock photography.", "Do keep the mark independent from the replaceable product name."],
+    "donts": ["Don't default to blue SaaS gradients, glass panels, or generic metric-card dashboards.", "Don't use Signal Lime for paragraphs or large areas; its rarity creates focus.", "Don't turn every module into an identical icon card; encode sequence with the learning path.", "Don't use decorative grid overlays or notation marks that have no product meaning.", "Don't make sensitive training feel playful, alarmist, or punitive."]
+  }
+}

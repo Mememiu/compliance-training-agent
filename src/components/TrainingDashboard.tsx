@@ -46,29 +46,29 @@ export function TrainingDashboard() {
       label: '课程总数',
       value: stats.totalCourses,
       icon: BookOpen,
-      color: '#0052D9',
-      bgColor: '#E8F3FF',
+      color: 'var(--td-info-color)',
+      bgColor: 'var(--td-bg-color-secondarycontainer)',
     },
     {
       label: '已完成',
       value: stats.completedCourses,
       icon: CheckCircle,
-      color: '#2BA471',
-      bgColor: '#E8F8F0',
+      color: 'var(--td-success-color)',
+      bgColor: 'var(--td-success-color-1)',
     },
     {
       label: '学习中',
       value: stats.inProgressCourses,
       icon: PlayCircle,
-      color: '#ED7B2F',
-      bgColor: '#FFF3E0',
+      color: 'var(--td-warning-color)',
+      bgColor: 'var(--td-warning-color-1)',
     },
     {
       label: '平均成绩',
       value: `${stats.avgScore}分`,
       icon: Award,
-      color: '#8B5CF6',
-      bgColor: '#F5F0FF',
+      color: 'var(--td-brand-color)',
+      bgColor: 'var(--td-bg-color-component)',
     },
   ];
 
@@ -77,9 +77,9 @@ export function TrainingDashboard() {
       <div className="max-w-6xl mx-auto p-6 lg:p-8">
         {/* 欢迎区域 */}
         <div
-          className="rounded-2xl p-6 lg:p-8 mb-6"
+          className="training-hero rounded-lg p-6 lg:p-8 mb-6"
           style={{
-            background: 'linear-gradient(135deg, #0052D9 0%, #266FE8 100%)',
+            backgroundColor: 'var(--score-ink)',
           }}
         >
           <div className="flex items-start justify-between flex-wrap gap-4">
@@ -88,10 +88,10 @@ export function TrainingDashboard() {
                 <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
                   <GraduationCap size={28} color="white" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">合规培训中心</h1>
+                <h1 className="text-2xl font-bold text-white">培训室</h1>
               </div>
               <p className="text-white/80 text-sm max-w-lg">
-                欢迎参加公司合规培训。请完成以下全部课程模块并通过考核，以确保您了解并遵守公司合规要求。
+                这里汇集公司各类学习内容。沿着你的学习谱，完成课程、理解场景，并在需要时回到 AI 学习助手。
               </p>
             </div>
             <div className="flex items-center gap-6">
@@ -99,18 +99,19 @@ export function TrainingDashboard() {
                 <div className="text-3xl font-bold text-white">{stats.completionRate}%</div>
                 <div className="text-white/70 text-xs mt-1">完成率</div>
               </div>
-              <div className="w-20 h-20 relative flex items-center justify-center">
-                <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-                  <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="6" />
-                  <circle
-                    cx="40" cy="40" r="34" fill="none" stroke="white" strokeWidth="6"
-                    strokeDasharray={`${2 * Math.PI * 34 * stats.completionRate / 100} ${2 * Math.PI * 34}`}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <span className="absolute text-white text-xs font-medium">
-                  {stats.completedCourses}/{stats.totalCourses}
-                </span>
+              <div className="learning-score-hero" aria-label={`已完成 ${stats.completedCourses} 门课程，共 ${stats.totalCourses} 门`}>
+                <span className="learning-score-hero__line" />
+                {Array.from({ length: Math.max(stats.totalCourses, 4) }).map((_, index) => {
+                  const isDone = index < stats.completedCourses;
+                  const isCurrent = !isDone && index === stats.completedCourses;
+                  return (
+                    <span
+                      key={index}
+                      className={`learning-score-hero__mark${isDone ? ' is-done' : ''}${isCurrent ? ' is-current' : ''}`}
+                    />
+                  );
+                })}
+                <span className="learning-score-hero__caption">{stats.completedCourses}/{stats.totalCourses}</span>
               </div>
             </div>
           </div>
@@ -123,14 +124,14 @@ export function TrainingDashboard() {
             return (
               <div
                 key={i}
-                className="rounded-xl p-4 flex items-center gap-3"
+                className="training-stat rounded-md p-4 flex items-center gap-3"
                 style={{
                   backgroundColor: 'var(--td-bg-color-container)',
                   border: '1px solid var(--td-component-stroke)',
                 }}
               >
                 <div
-                  className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0"
+                  className="training-stat__icon w-11 h-11 rounded-md flex items-center justify-center flex-shrink-0"
                   style={{ backgroundColor: card.bgColor }}
                 >
                   <Icon size={22} color={card.color} />
@@ -180,7 +181,7 @@ export function TrainingDashboard() {
 
         {/* 底部提示 */}
         <div
-          className="mt-6 rounded-xl p-4 flex items-start gap-3"
+          className="training-note mt-6 rounded-md p-4 flex items-start gap-3"
           style={{
             backgroundColor: 'var(--td-warning-color-1)',
             border: '1px solid var(--td-warning-color-2)',
@@ -189,8 +190,8 @@ export function TrainingDashboard() {
           <TrendingUp size={20} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--td-warning-color)' }} />
           <div className="text-sm" style={{ color: 'var(--td-text-color-primary)' }}>
             <strong>培训要求：</strong>
-            所有新员工需在入职30天内完成全部合规培训课程并通过考核（及格线80分）。
-            如有疑问，可随时点击左侧"AI助手"进行咨询。
+            继续完成你的学习路径，课程负责人会持续更新内容和考核要求。
+            如有疑问，可随时点击左侧“AI 学习助手”进行咨询。
           </div>
         </div>
       </div>
@@ -202,15 +203,15 @@ function CourseCard({ course, onClick }: { course: DashboardCourse; onClick: () 
   const Icon = ICON_MAP[course.icon] || BookOpen;
 
   const statusConfig = {
-    not_started: { label: '未开始', color: '#909399', bgColor: '#F0F0F0' },
-    in_progress: { label: '学习中', color: '#ED7B2F', bgColor: '#FFF3E0' },
-    completed: { label: '已完成', color: '#2BA471', bgColor: '#E8F8F0' },
+    not_started: { label: '未开始', color: 'var(--td-text-color-secondary)', bgColor: 'var(--td-bg-color-component)' },
+    in_progress: { label: '学习中', color: 'var(--td-warning-color)', bgColor: 'var(--td-warning-color-1)' },
+    completed: { label: '已完成', color: 'var(--td-success-color)', bgColor: 'var(--td-success-color-1)' },
   };
   const status = statusConfig[course.status];
 
   return (
     <div
-      className="rounded-xl p-5 cursor-pointer transition-all duration-200 hover:shadow-lg group"
+      className="course-card rounded-lg p-5 cursor-pointer transition-all duration-200 hover:shadow-lg group"
       style={{
         backgroundColor: 'var(--td-bg-color-container)',
         border: '1px solid var(--td-component-stroke)',
@@ -219,10 +220,10 @@ function CourseCard({ course, onClick }: { course: DashboardCourse; onClick: () 
     >
       <div className="flex items-start gap-4 mb-3">
         <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: course.color + '15' }}
+          className="course-card__mark w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: 'var(--td-bg-color-component)' }}
         >
-          <Icon size={24} color={course.color} />
+          <Icon size={24} color="var(--td-brand-color)" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -234,7 +235,7 @@ function CourseCard({ course, onClick }: { course: DashboardCourse; onClick: () 
             </h3>
           </div>
           <div className="flex items-center gap-2">
-            <Tag size="small" variant="light" style={{ color: course.color, borderColor: course.color + '30' }}>
+            <Tag size="small" variant="light" style={{ color: 'var(--td-text-color-primary)', borderColor: 'var(--td-component-stroke)' }}>
               {course.difficulty}
             </Tag>
             <span className="text-xs" style={{ color: 'var(--td-text-color-secondary)' }}>
@@ -262,12 +263,12 @@ function CourseCard({ course, onClick }: { course: DashboardCourse; onClick: () 
           percentage={course.progress}
           size="small"
           style={{ flex: 1 }}
-          color={course.color}
+          color="var(--td-brand-color)"
         />
         {course.score !== null && (
           <span
             className="text-xs font-medium flex-shrink-0"
-            style={{ color: course.passed ? '#2BA471' : '#D54941' }}
+            style={{ color: course.passed ? 'var(--td-success-color)' : 'var(--td-error-color)' }}
           >
             {course.score}分
           </span>

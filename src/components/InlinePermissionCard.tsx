@@ -18,23 +18,23 @@ interface InlinePermissionCardProps {
 
 // 工具名称到图标和颜色的映射
 const TOOL_CONFIG: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
-  'Bash': { icon: <TerminalIcon />, color: '#e34d59', label: '执行命令' },
-  'Write': { icon: <EditIcon />, color: '#0052d9', label: '写入文件' },
-  'Edit': { icon: <EditIcon />, color: '#0052d9', label: '编辑文件' },
-  'Read': { icon: <FileIcon />, color: '#2ba471', label: '读取文件' },
-  'ReadFile': { icon: <FileIcon />, color: '#2ba471', label: '读取文件' },
-  'ListDir': { icon: <FolderOpenIcon />, color: '#ed7b2f', label: '列出目录' },
-  'Search': { icon: <SearchIcon />, color: '#8a6be5', label: '搜索' },
-  'Grep': { icon: <SearchIcon />, color: '#8a6be5', label: '文本搜索' },
-  'Delete': { icon: <DeleteIcon />, color: '#e34d59', label: '删除文件' },
-  'DeleteFile': { icon: <DeleteIcon />, color: '#e34d59', label: '删除文件' },
+  'Bash': { icon: <TerminalIcon />, color: '#B94B43', label: '执行命令' },
+  'Write': { icon: <EditIcon />, color: '#182126', label: '写入文件' },
+  'Edit': { icon: <EditIcon />, color: '#182126', label: '编辑文件' },
+  'Read': { icon: <FileIcon />, color: '#4F8F71', label: '读取文件' },
+  'ReadFile': { icon: <FileIcon />, color: '#4F8F71', label: '读取文件' },
+  'ListDir': { icon: <FolderOpenIcon />, color: '#B68128', label: '列出目录' },
+  'Search': { icon: <SearchIcon />, color: '#4E7FA3', label: '搜索' },
+  'Grep': { icon: <SearchIcon />, color: '#4E7FA3', label: '文本搜索' },
+  'Delete': { icon: <DeleteIcon />, color: '#B94B43', label: '删除文件' },
+  'DeleteFile': { icon: <DeleteIcon />, color: '#B94B43', label: '删除文件' },
 };
 
 // 获取工具配置
 const getToolConfig = (toolName: string) => {
   return TOOL_CONFIG[toolName] || { 
     icon: <Code1Icon />, 
-    color: '#666666', 
+    color: '#617078',
     label: toolName 
   };
 };
@@ -101,11 +101,11 @@ export function InlinePermissionCard({ request, onAllow, onDeny }: InlinePermiss
         <span 
           className="text-xs px-2 py-0.5 rounded"
           style={{ 
-            backgroundColor: 'rgba(227, 77, 89, 0.1)',
-            color: '#e34d59'
+            backgroundColor: 'var(--td-error-color-1)',
+            color: 'var(--td-error-color)'
           }}
         >
-          ⚠️ 危险操作
+          危险操作
         </span>
       )}
       
@@ -117,7 +117,7 @@ export function InlinePermissionCard({ request, onAllow, onDeny }: InlinePermiss
           variant="text"
           onClick={onDeny}
           style={{ 
-            color: '#e34d59',
+            color: 'var(--td-error-color)',
             fontWeight: 500
           }}
         >
@@ -129,9 +129,9 @@ export function InlinePermissionCard({ request, onAllow, onDeny }: InlinePermiss
           variant="base"
           onClick={onAllow}
           style={{ 
-            backgroundColor: '#2ba471',
-            borderColor: '#2ba471',
-            color: 'white',
+            backgroundColor: 'var(--td-success-color)',
+            borderColor: 'var(--td-success-color)',
+            color: 'var(--td-text-color-anti)',
             fontWeight: 500
           }}
         >

@@ -150,7 +150,9 @@ function AppContent() {
   }, [navigate]);
 
   // Sidebar 状态
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() =>
+    typeof window === 'undefined' ? true : window.innerWidth > 768
+  );
 
   // 权限模式状态
   const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
@@ -159,18 +161,18 @@ function AppContent() {
   const pageTitle = isSettingsPage
     ? '设置'
     : isChatPage
-    ? (currentSession?.title || 'AI 合规助手')
+    ? (currentSession?.title || 'AI 学习助手')
     : location.pathname.startsWith('/course/') && location.pathname.includes('/quiz')
     ? '课程考核'
     : location.pathname.startsWith('/course/') && location.pathname.includes('/lesson/')
     ? '课程学习'
     : location.pathname.startsWith('/course/')
     ? '课程详情'
-    : '合规培训中心';
+    : '培训室';
 
   return (
     <div
-      className="flex h-screen w-screen"
+      className="app-shell flex h-screen w-screen"
       style={{ backgroundColor: 'var(--td-bg-color-page)' }}
     >
       {/* 侧边栏 */}

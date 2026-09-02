@@ -1,0 +1,13 @@
+{
+  "assets": [
+    {
+      "path": "assets/banners/training-room/banner_training-room_learning-score_20260902.png",
+      "type": "banner",
+      "campaign": "training-room",
+      "description": "learning-score",
+      "created": "2026-09-02",
+      "variant": "primary",
+      "dimensions": "1920x640"
+    }
+  ]
+}

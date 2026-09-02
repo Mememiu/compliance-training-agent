@@ -5,13 +5,13 @@
 
 export const APP_CONFIG = {
   /** 应用名称 */
-  name: '合规培训',
+  name: '培训室',
   
   /** 应用名称首字母（用于 Logo） */
-  nameInitial: '合',
+  nameInitial: '谱',
   
   /** 应用描述 */
-  description: '新员工合规培训平台 — 课程学习 · 测验考核 · AI 答疑',
+  description: '企业学习空间 — 课程学习 · 测验考核 · AI 学习助手',
   
   /** 版本号 */
   version: '1.0.0',

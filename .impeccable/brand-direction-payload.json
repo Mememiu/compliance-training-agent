@@ -1,0 +1,113 @@
+{
+  "title": "选择培训产品的视觉世界",
+  "question": "为面向员工的多领域培训空间选择一个长期视觉母题。名称“培训室”只是工作名，之后可以替换。",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "学习谱 / Learning Score",
+      "kicker": "THE ROLL",
+      "lineage": "Labanotation movement scores",
+      "thesis": "把学习过程变成一份能被读懂、跟随和完成的谱面。",
+      "palette": ["#182126", "#F5F2EA", "#D9E45F", "#B9C6CC"],
+      "materials": ["score paper", "ink blocks", "registration marks"],
+      "viewport": "首页以一条纵向学习谱为主视觉：课程模块像节拍块沿中心线排列，当前任务是一块高亮的荧光黄记号，员工可以直接继续下一步。",
+      "risk": "记谱语言较陌生，若缺少真实课程标题和清晰状态，容易像艺术项目而不像培训产品。",
+      "raised": [
+        {"from": "challenger-manual-acetate", "raise": "把模块结构做成可扫描的分段谱面，让课程负责人也能快速定位和编辑。"},
+        {"from": "challenger-darkroom", "raise": "加入学习前后状态的连续显影，让完成不是静态勾选而是可感知的形成过程。"}
+      ],
+      "case": "主案：在员工识别感上中等，在产品清晰度上强；它把“学习路径”变成品牌自己的可视语言。",
+      "riskScore": "需要用严格的标记规则约束装饰性，避免复杂化。"
+    },
+    {
+      "id": "model-pick",
+      "label": "现场指南 / Field Guide",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "annotated field guides and public wayfinding",
+      "thesis": "每门课程都是员工在真实工作现场可以查阅的一页指南。",
+      "palette": ["#F4F0E6", "#172A2B", "#2F6B5F", "#D36B3D", "#D7B84A"],
+      "materials": ["field notes", "route marks", "index tabs"],
+      "viewport": "首页像一张正在使用的工作地图：左侧是今天要完成的路线，右侧是课程目录与预计用时，最近学习点保留在视线中。",
+      "risk": "这是最容易被企业学习产品接受的方向，辨识度依赖于地图标记、批注和内容密度必须做得足够独特。",
+      "case": "最强的长期品牌候选：员工一眼理解“我该从哪里开始”，负责人也能理解“内容如何被组织”。"
+    },
+    {
+      "id": "challenger-manual",
+      "label": "透明活页手册 / Acetate Manual",
+      "verdict": "wins",
+      "lineage": "boxed-software reference manuals",
+      "thesis": "课程像一套可持续更新的活页手册，每个章节都能被替换、校订和复用。",
+      "palette": ["#F2EBDD", "#D36B3D", "#D8B940", "#3D7E63", "#215C87", "#5E4C91"],
+      "materials": ["rag paper", "clear acetate", "punched tabs"],
+      "viewport": "首页以伸出的章节标签 rail 组织课程，当前章节展开成一张半透明学习页；学习进度、版本和编辑状态都在页边可见。",
+      "case": "胜出：同时提升员工识别和产品清晰度，尤其适合“负责人编辑课程、员工按章节学习”的双角色结构。",
+      "risk": "材料语言很强，必须保持轻量和可读，不能把界面变成仿古书籍。"
+    },
+    {
+      "id": "challenger-darkroom",
+      "label": "显影室 / Developing Room",
+      "verdict": "competitive",
+      "lineage": "printing darkroom under amber safelight",
+      "thesis": "每一次学习都让模糊的风险场景显影成可执行的判断。",
+      "palette": ["#241C18", "#E4A13A", "#D8D2C4", "#7D8E91"],
+      "materials": ["amber light", "silver gray", "contact sheets"],
+      "viewport": "员工打开课程时先看到待显影的知识片段，完成课节后逐步显出完整的行动清单和判断结果。",
+      "case": "竞争方向：在产品机制上强，在员工日常识别上中等；适合做课程完成动效与案例练习的局部语言。",
+      "risk": "偏向一次次完成任务的体验，对广泛课程目录和负责人编辑的支持不如手册方向直观。"
+    },
+    {
+      "id": "challenger-teletext",
+      "label": "培训频道 / Teletext Service",
+      "verdict": "competitive",
+      "lineage": "broadcast teletext magazines",
+      "thesis": "课程目录像一个持续播出的企业知识频道，员工按页码进入主题。",
+      "palette": ["#111B3A", "#F5D94E", "#C95A46", "#E6E8EA"],
+      "materials": ["index pages", "signal blocks", "broadcast timestamp"],
+      "viewport": "首页是清晰的频道索引：必修、推荐、最近更新和搜索入口占据固定页码，课程更新带有播出时间。",
+      "case": "竞争方向：产品清晰度强，但员工识别偏弱；适合负责人后台或课程目录的密度参考。",
+      "risk": "复古电子感容易压过培训内容，并使无障碍和长文阅读变得紧张。"
+    },
+    {
+      "id": "challenger-tensegrity",
+      "label": "张力网络 / Tension Network",
+      "verdict": "declined",
+      "lineage": "tensegrity sculpture and force diagrams",
+      "palette": ["#EAE6DD", "#171C1E", "#C84B42"],
+      "materials": ["carbon rods", "red cord", "force labels"],
+      "case": "保留“课程之间彼此支撑”的关系表达；但抽象结构会削弱员工第一次进入时的直觉。",
+      "kept": "用依赖关系和先修课程的连线表达课程结构，而不是作为整套品牌外观。"
+    },
+    {
+      "id": "challenger-gravity",
+      "label": "重力花园 / Gravity Garden",
+      "verdict": "declined",
+      "lineage": "gravity-rain garden",
+      "palette": ["#4E6258", "#B8D5E1", "#C84E42", "#F0EADF"],
+      "materials": ["cloud rules", "trajectory lines", "garden map"],
+      "case": "保留“不同主题有不同学习路径”的可视化想象；但不适合承担严肃培训内容的可信度。",
+      "kept": "在专题筛选或推荐课程中使用路径与流向的视觉提示。"
+    },
+    {
+      "id": "challenger-microfiche",
+      "label": "档案阅览室 / Microfiche Reader",
+      "verdict": "declined",
+      "lineage": "library microfiche stations",
+      "palette": ["#12171B", "#A9BBC1", "#D4A55A"],
+      "materials": ["backlit glass", "film grain", "archive index"],
+      "case": "保留档案可信度和历史版本的感觉；但员工不会把日常学习理解成资料检索。",
+      "kept": "课程版本、更新时间和修订记录可以采用档案索引的严谨度。"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "企业学习平台标准方案",
+    "thesis": "清晰的课程卡片、蓝色主色和标准后台导航，执行到足够专业。",
+    "palette": ["#FFFFFF", "#111827", "#2563EB", "#10B981"],
+    "materials": ["clean grid", "standard cards", "progress bars"],
+    "viewport": "常规仪表盘：顶部导航、统计卡片、课程卡片和一个明显的继续学习按钮。",
+    "risk": "易用但难以形成独特记忆，和其他企业学习产品很难区分。"
+  },
+  "steer": true
+}

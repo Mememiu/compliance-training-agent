@@ -364,10 +364,10 @@ export const APP_CONFIG = {
 
 ```css
 :root {
-  --primary-color: #0052d9;     /* 主色调 */
-  --success-color: #00a870;     /* 成功色 */
-  --warning-color: #ed7b2f;     /* 警告色 */
-  --error-color: #e34d59;       /* 错误色 */
+  --td-brand-color: #182126;    /* Score Ink */
+  --td-success-color: #4f8f71;  /* Complete Green */
+  --td-warning-color: #b68128;  /* Attention Amber */
+  --td-error-color: #b94b43;    /* Action Red */
 }
 ```
 
@@ -382,7 +382,7 @@ const defaultAgent: CustomAgent = {
   description: '我是你的 AI 助手',
   systemPrompt: '你是一个专业的 AI 助手，擅长编程、写作和问答。',
   icon: 'MessageIcon',
-  color: '#0052d9',
+  color: '#182126',
   permissionMode: 'default',
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -395,7 +395,7 @@ const codeAgent: CustomAgent = {
   description: '专注于代码开发和调试',
   systemPrompt: '你是一个专业的代码助手，精通多种编程语言，善于代码审查、调试和优化。',
   icon: 'CodeIcon',
-  color: '#00a870',
+  color: '#4f8f71',
   permissionMode: 'acceptEdits',
   createdAt: new Date(),
   updatedAt: new Date(),

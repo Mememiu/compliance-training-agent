@@ -50,7 +50,7 @@ export function ChatInput({
         <ChatSender
           ref={chatSenderRef}
           value={inputValue}
-          placeholder="输入合规问题..."
+          placeholder="输入关于课程、制度或工作场景的问题..."
           disabled={!selectedModel}
           loading={isLoading}
           autosize={{ minRows: 1, maxRows: 6 }}

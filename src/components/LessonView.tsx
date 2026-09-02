@@ -67,6 +67,7 @@ export function LessonView() {
 
   const lesson = currentCourse.lessons[lessonIndex];
   const Icon = ICON_MAP[currentCourse.icon] || BookOpen;
+  const courseTone = 'var(--td-brand-color)';
   const isLastLesson = lessonIndex === currentCourse.lessons.length - 1;
   const prevLesson = lessonIndex > 0 ? currentCourse.lessons[lessonIndex - 1] : null;
   const nextLesson = !isLastLesson ? currentCourse.lessons[lessonIndex + 1] : null;
@@ -105,10 +106,10 @@ export function LessonView() {
         {/* 课程头部信息 */}
         <div className="flex items-center gap-2 mb-2">
           <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: currentCourse.color + '15' }}
+            className="w-7 h-7 rounded-md flex items-center justify-center"
+            style={{ backgroundColor: 'var(--td-bg-color-component)' }}
           >
-            <Icon size={14} color={currentCourse.color} />
+            <Icon size={14} color={courseTone} />
           </div>
           <span className="text-sm" style={{ color: 'var(--td-text-color-secondary)' }}>
             {currentCourse.title}
@@ -132,15 +133,15 @@ export function LessonView() {
         {/* 关键知识点 */}
         {lesson.keyPoints && lesson.keyPoints.length > 0 && (
           <div
-            className="rounded-xl p-4 mb-6"
+            className="lesson-keypoints rounded-lg p-4 mb-6"
             style={{
-              backgroundColor: '#FFF8E8',
-              border: '1px solid #FFE0A0',
+              backgroundColor: 'var(--td-warning-color-1)',
+              border: '1px solid var(--td-warning-color-2)',
             }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <Lightbulb size={18} color="#ED7B2F" />
-              <span className="text-sm font-semibold" style={{ color: '#8B5A00' }}>
+              <Lightbulb size={18} color="var(--td-warning-color)" />
+              <span className="text-sm font-semibold" style={{ color: 'var(--td-warning-color)' }}>
                 本课要点
               </span>
             </div>
@@ -149,7 +150,7 @@ export function LessonView() {
                 <li
                   key={i}
                   className="text-sm flex items-start gap-2"
-                  style={{ color: '#7A5300' }}
+                  style={{ color: 'var(--td-text-color-primary)' }}
                 >
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-current flex-shrink-0" />
                   {point}
@@ -161,7 +162,7 @@ export function LessonView() {
 
         {/* 课程内容 */}
         <div
-          className="rounded-xl p-6 mb-6"
+          className="lesson-reading-surface rounded-lg p-6 mb-6"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
@@ -188,12 +189,12 @@ export function LessonView() {
             {currentCourse.lessons.map((l, i) => (
               <div
                 key={l.id}
-                className="w-2 h-2 rounded-full transition-all"
+                className="w-2 h-2 rounded-sm transition-all"
                 style={{
                   backgroundColor: i === lessonIndex
-                    ? currentCourse.color
+                    ? courseTone
                     : i < lessonIndex
-                    ? currentCourse.color + '60'
+                    ? 'var(--td-success-color)'
                     : 'var(--td-bg-color-component)',
                   width: i === lessonIndex ? '24px' : '8px',
                 }}

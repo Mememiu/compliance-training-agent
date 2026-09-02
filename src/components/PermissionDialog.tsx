@@ -19,21 +19,21 @@ interface PermissionDialogProps {
 
 // 工具名称到图标和颜色的映射
 const TOOL_CONFIG: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
-  'Bash': { icon: <TerminalIcon />, color: '#e34d59', label: '执行命令' },
-  'Write': { icon: <EditIcon />, color: '#0052d9', label: '写入文件' },
-  'Edit': { icon: <EditIcon />, color: '#0052d9', label: '编辑文件' },
-  'Read': { icon: <FileIcon />, color: '#2ba471', label: '读取文件' },
-  'ListDir': { icon: <FolderOpenIcon />, color: '#ed7b2f', label: '列出目录' },
-  'Search': { icon: <SearchIcon />, color: '#8a6be5', label: '搜索' },
-  'Grep': { icon: <SearchIcon />, color: '#8a6be5', label: '文本搜索' },
-  'Delete': { icon: <DeleteIcon />, color: '#e34d59', label: '删除文件' },
+  'Bash': { icon: <TerminalIcon />, color: '#B94B43', label: '执行命令' },
+  'Write': { icon: <EditIcon />, color: '#182126', label: '写入文件' },
+  'Edit': { icon: <EditIcon />, color: '#182126', label: '编辑文件' },
+  'Read': { icon: <FileIcon />, color: '#4F8F71', label: '读取文件' },
+  'ListDir': { icon: <FolderOpenIcon />, color: '#B68128', label: '列出目录' },
+  'Search': { icon: <SearchIcon />, color: '#4E7FA3', label: '搜索' },
+  'Grep': { icon: <SearchIcon />, color: '#4E7FA3', label: '文本搜索' },
+  'Delete': { icon: <DeleteIcon />, color: '#B94B43', label: '删除文件' },
 };
 
 // 获取工具配置
 const getToolConfig = (toolName: string) => {
   return TOOL_CONFIG[toolName] || { 
     icon: <Code1Icon />, 
-    color: '#666666', 
+    color: '#617078',
     label: toolName 
   };
 };
@@ -161,7 +161,7 @@ export function PermissionDialog({ visible, request, onAllow, onDeny }: Permissi
               }}
               contentStyle={{
                 fontFamily: 'monospace',
-                fontSize: '13px',
+                fontSize: 'var(--font-code-size)',
                 wordBreak: 'break-all'
               }}
             >
@@ -190,7 +190,7 @@ export function PermissionDialog({ visible, request, onAllow, onDeny }: Permissi
               color: 'var(--td-error-color)'
             }}
           >
-            <span className="flex-shrink-0">⚠️</span>
+            <span className="flex-shrink-0" aria-hidden="true">!</span>
             <span>此操作将在您的系统上执行命令，请确认命令内容安全可信。</span>
           </div>
         )}
@@ -198,11 +198,11 @@ export function PermissionDialog({ visible, request, onAllow, onDeny }: Permissi
           <div 
             className="flex items-start gap-2 text-sm p-3 rounded-lg"
             style={{ 
-              backgroundColor: 'rgba(0, 82, 217, 0.1)',
+              backgroundColor: 'var(--td-brand-color-light)',
               color: 'var(--td-brand-color)'
             }}
           >
-            <span className="flex-shrink-0">📝</span>
+            <span className="flex-shrink-0" aria-hidden="true">+</span>
             <span>此操作将修改您的文件系统，请确认操作正确。</span>
           </div>
         )}

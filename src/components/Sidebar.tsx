@@ -40,7 +40,7 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <aside
-      className="flex flex-col flex-shrink-0 transition-all duration-300 overflow-hidden"
+      className={`app-sidebar flex flex-col flex-shrink-0 transition-all duration-300 overflow-hidden ${sidebarOpen ? 'is-open' : 'is-closed'}`}
       style={{
         width: sidebarOpen ? 260 : 0,
         backgroundColor: 'var(--td-bg-color-container)'
@@ -53,7 +53,7 @@ export function Sidebar({
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ backgroundColor: 'var(--td-brand-color)' }}
           >
-            <span className="text-white text-sm font-bold">{APP_CONFIG.nameInitial}</span>
+            <span className="text-sm font-bold" style={{ color: 'var(--td-text-color-anti)' }}>{APP_CONFIG.nameInitial}</span>
           </div>
           <span
             className="text-lg font-semibold"
@@ -74,7 +74,7 @@ export function Sidebar({
         />
         <NavButton
           icon={<MessageSquare size={16} />}
-          label="AI 合规助手"
+          label="AI 学习助手"
           active={isChatPage && !isSettingsPage}
           onClick={onNavigateToChat}
         />

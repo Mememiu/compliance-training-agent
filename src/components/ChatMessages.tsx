@@ -128,7 +128,7 @@ export function ChatMessages({
                 ? 'var(--td-brand-color)' 
                 : 'var(--td-bg-color-component)',
               color: message.role === 'user' 
-                ? 'white' 
+                ? 'var(--td-text-color-anti)'
                 : 'var(--td-text-color-primary)'
             }}
           >
@@ -152,7 +152,7 @@ export function ChatMessages({
                 className="px-4 py-3 leading-relaxed break-words"
                 style={{
                   backgroundColor: 'var(--td-brand-color)',
-                  color: 'white',
+              color: 'var(--td-text-color-anti)',
                   borderRadius: '16px 16px 4px 16px'
                 }}
               >

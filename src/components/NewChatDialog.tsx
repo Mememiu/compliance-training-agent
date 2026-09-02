@@ -121,7 +121,7 @@ export function NewChatDialog({
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: agent.color || '#0052d9' }}
+                      style={{ backgroundColor: agent.color || 'var(--td-brand-color)' }}
                     >
                       <AgentIcon size={16} color="white" />
                     </div>
@@ -185,7 +185,7 @@ export function NewChatDialog({
             <div className="flex items-center gap-2 mb-2">
               <div 
                 className="w-6 h-6 rounded flex items-center justify-center"
-                style={{ backgroundColor: selectedAgent.color || '#0052d9' }}
+                style={{ backgroundColor: selectedAgent.color || 'var(--td-brand-color)' }}
               >
                 <Icon size={14} color="white" />
               </div>

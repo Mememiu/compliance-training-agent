@@ -419,8 +419,8 @@ app.post("/api/chat", async (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  // 默认系统提示词 — 合规培训AI助手
-  const defaultSystemPrompt = COMPLIANCE_SYSTEM_PROMPT;
+  // 默认系统提示词 — 企业学习助手
+  const defaultSystemPrompt = TRAINING_SYSTEM_PROMPT;
   
   // 工作目录：优先使用请求中的 cwd，否则使用当前目录
   const workingDir = cwd || process.cwd();
@@ -652,7 +652,7 @@ app.listen(PORT, () => {
   console.log(`
 ╔════════════════════════════════════════════╗
 ║                                            ║
-║     ◉ 合规培训平台已启动                    ║
+║     ◉ 培训室服务已启动                      ║
 ║                                            ║
 ║     地址: http://localhost:${PORT}            ║
 ║     数据库: SQLite (data/chat.db)          ║
@@ -665,19 +665,19 @@ app.listen(PORT, () => {
 
 import { COURSES, getCourseById } from '../src/data/courses.js';
 
-// 合规培训 AI 助手系统提示词
-const COMPLIANCE_SYSTEM_PROMPT = `你是公司的合规培训AI助手，专门帮助新员工学习和理解公司合规要求。你的职责包括：
+// 企业学习 AI 助手系统提示词
+const TRAINING_SYSTEM_PROMPT = `你是公司的企业学习助手，帮助员工学习和理解公司课程与制度。你的职责包括：
 
-1. **解答合规问题** — 准确回答关于数据合规、反腐败、信息安全、劳动合规等方面的问题
-2. **培训指导** — 引导员工学习合规课程，解释课程中的关键概念
-3. **案例分析** — 帮助员工理解实际工作中的合规风险场景
-4. **政策解读** — 解释公司合规政策和法律法规要求
+1. **解答学习问题** — 围绕课程、制度和工作场景给出清晰、可执行的回答
+2. **学习指导** — 引导员工找到合适的课程，解释课程中的关键概念
+3. **案例分析** — 帮助员工把知识迁移到实际工作场景
+4. **内容导航** — 根据员工的问题推荐相关课程、课时和考核
 
 回答要求：
 - 使用简洁、专业的中文回答
 - 引用具体的法律法规条款时确保准确
 - 遇到不确定的问题时诚实说明
-- 鼓励员工主动学习和遵守合规要求
+- 鼓励员工主动学习并在不确定时及时确认
 - 涉及具体法律建议时，建议咨询公司法务部门
 
 你掌握的合规知识领域：
@@ -686,7 +686,7 @@ const COMPLIANCE_SYSTEM_PROMPT = `你是公司的合规培训AI助手，专门�
 - 信息安全意识（网络安全法、密码安全、社会工程学防范）
 - 劳动合规与职场行为（劳动合同法、反骚扰、平等就业）
 
-请以专业、友善、负责任的态度为员工提供合规培训指导。`;
+请以专业、友善、负责任的态度为员工提供学习指导。`;
 
 // 获取所有课程列表
 app.get("/api/courses", (req, res) => {

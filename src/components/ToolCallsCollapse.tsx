@@ -45,43 +45,43 @@ const getToolIcon = (toolName: string) => {
   }
   // Web 搜索
   if (name === 'websearch') {
-    return { icon: Search, color: '#1890ff' };
+    return { icon: Search, color: '#4E7FA3' };
   }
   // Web 抓取
   if (name === 'webfetch') {
-    return { icon: Globe, color: '#52c41a' };
+    return { icon: Globe, color: '#4F8F71' };
   }
   // 写入文件
   if (name === 'write') {
-    return { icon: FileText, color: '#fa8c16' };
+    return { icon: FileText, color: '#B68128' };
   }
   // 读取文件
   if (name === 'read' || name === 'readfile') {
-    return { icon: Eye, color: '#722ed1' };
+    return { icon: Eye, color: '#617078' };
   }
   // 编辑文件
   if (name === 'edit' || name === 'editfile') {
-    return { icon: Edit, color: '#fa8c16' };
+    return { icon: Edit, color: '#B68128' };
   }
   // 删除文件
   if (name === 'delete' || name === 'deletefile') {
-    return { icon: Trash2, color: '#ff4d4f' };
+    return { icon: Trash2, color: '#B94B43' };
   }
   // 搜索
   if (name === 'search' || name === 'grep') {
-    return { icon: FolderSearch, color: '#13c2c2' };
+    return { icon: FolderSearch, color: '#4E7FA3' };
   }
   // 列出目录
   if (name === 'listdir' || name === 'ls') {
-    return { icon: FolderSearch, color: '#13c2c2' };
+    return { icon: FolderSearch, color: '#4E7FA3' };
   }
   // 图片生成
   if (name === 'imagegen') {
-    return { icon: Image, color: '#f5222d' };
+    return { icon: Image, color: '#B94B43' };
   }
   // 任务
   if (name === 'task') {
-    return { icon: Zap, color: '#faad14' };
+    return { icon: Zap, color: '#B68128' };
   }
   
   // 默认图标
@@ -354,7 +354,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
               className="flex-1 text-sm font-medium"
               style={{ color: 'var(--td-text-color-primary)' }}
             >
-              搜索: <span style={{ color: '#1890ff' }}>{query || '...'}</span>
+              搜索: <span style={{ color: '#4E7FA3' }}>{query || '...'}</span>
             </span>
             <span
               className="text-xs"
@@ -489,7 +489,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
               style={{ color: 'var(--td-text-color-primary)' }}
               title={filePath}
             >
-              写入 <span style={{ color: '#fa8c16' }}>{fileName}</span>
+              写入 <span style={{ color: '#B68128' }}>{fileName}</span>
             </span>
             <span
               className="text-xs"
@@ -669,7 +669,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
             {count > 1 && (
               <span 
                 className="text-xs"
-                style={{ color: 'var(--td-text-color-placeholder)', fontSize: '10px' }}
+                style={{ color: 'var(--td-text-color-placeholder)', fontSize: 'var(--font-micro-size)' }}
               >
                 {count}
               </span>

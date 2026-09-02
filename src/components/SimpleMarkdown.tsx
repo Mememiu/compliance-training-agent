@@ -74,7 +74,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
         <blockquote
           key={key++}
           style={{
-            borderLeft: '3px solid var(--td-brand-color)',
+            borderLeft: '1px solid var(--td-brand-color)',
             paddingLeft: '12px',
             margin: '12px 0',
             color: 'var(--td-text-color-secondary)',

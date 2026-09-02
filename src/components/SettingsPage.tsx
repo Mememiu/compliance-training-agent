@@ -35,8 +35,8 @@ const PRESET_ICONS = [
 ];
 
 const PRESET_COLORS = [
-  '#0052d9', '#0594fa', '#00a870', '#ed7b2f', 
-  '#e34d59', '#a25eb5', '#5c6bc0', '#26a69a'
+  '#182126', '#4E7FA3', '#4F8F71', '#B68128',
+  '#B94B43', '#617078', '#34434A', '#AAB52F'
 ];
 
 const PRESET_TEMPLATES = [
@@ -45,28 +45,28 @@ const PRESET_TEMPLATES = [
     description: '专注数据保护与隐私合规咨询',
     systemPrompt: '你是数据合规顾问，擅长个人信息保护法、数据分类分级、跨境传输等数据合规问题的解答。',
     icon: 'ShieldCheck',
-    color: '#0052d9',
+    color: '#182126',
   },
   {
     name: '反腐败顾问',
     description: '商业道德与反贿赂专业咨询',
     systemPrompt: '你是反腐败合规顾问，专注反贿赂法律、利益冲突管理、廉洁行为准则等方面的咨询。',
     icon: 'Scale',
-    color: '#e34d59',
+    color: '#B94B43',
   },
   {
     name: '信息安全顾问',
     description: '信息安全意识与防护咨询',
     systemPrompt: '你是信息安全顾问，擅长密码安全、钓鱼防范、社会工程学防护等信息安全问题的解答。',
     icon: 'Lock',
-    color: '#00a870',
+    color: '#4F8F71',
   },
   {
     name: '劳动法顾问',
     description: '劳动合同与职场权益咨询',
     systemPrompt: '你是劳动法顾问，专注劳动合同、加班薪酬、职场反骚扰等劳动合规问题的解答。',
     icon: 'Users',
-    color: '#a25eb5',
+    color: '#617078',
   },
 ];
 
@@ -83,7 +83,7 @@ export function SettingsPage({
     description: '',
     systemPrompt: '',
     icon: 'Bot',
-    color: '#0052d9',
+    color: '#182126',
     permissionMode: 'default' as PermissionMode,
   });
 
@@ -93,7 +93,7 @@ export function SettingsPage({
       description: '',
       systemPrompt: '',
       icon: 'Bot',
-      color: '#0052d9',
+      color: '#182126',
       permissionMode: 'default',
     });
     setEditingAgent(null);
@@ -108,7 +108,7 @@ export function SettingsPage({
       description: agent.description || '',
       systemPrompt: agent.systemPrompt,
       icon: agent.icon || 'Bot',
-      color: agent.color || '#0052d9',
+      color: agent.color || '#182126',
       permissionMode: agent.permissionMode || 'default',
     });
     setIsCreating(true);
@@ -162,7 +162,7 @@ export function SettingsPage({
             设置
           </h1>
           <p style={{ color: 'var(--td-text-color-secondary)' }}>
-            管理自定义合规顾问 Agent
+            管理课程与学习助手配置
           </p>
         </div>
 
@@ -179,7 +179,7 @@ export function SettingsPage({
               className="text-sm mt-1"
               style={{ color: 'var(--td-text-color-secondary)' }}
             >
-              创建和管理自定义合规顾问
+              创建和管理面向不同学习主题的助手
             </p>
           </div>
 
@@ -206,7 +206,7 @@ export function SettingsPage({
                       <Input 
                         value={formData.name}
                         onChange={(v) => setFormData(prev => ({ ...prev, name: v as string }))}
-                        placeholder="例如：数据合规顾问"
+                        placeholder="例如：信息安全顾问"
                       />
                     </Form.FormItem>
                     
@@ -338,7 +338,7 @@ export function SettingsPage({
                             <div className="flex items-center gap-3">
                               <div 
                                 className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style={{ backgroundColor: agent.color || '#0052d9' }}
+                                style={{ backgroundColor: agent.color || '#182126' }}
                               >
                                 <Icon size={20} color="white" />
                               </div>

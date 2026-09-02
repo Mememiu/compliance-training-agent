@@ -46,6 +46,7 @@ export function QuizView() {
   }
 
   const Icon = ICON_MAP[currentCourse.icon] || FileQuestion;
+  const courseTone = 'var(--td-brand-color)';
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === currentCourse.quiz.length;
 
@@ -94,7 +95,7 @@ export function QuizView() {
 
         {/* 测验头部 */}
         <div
-          className="rounded-2xl p-6 mb-6"
+          className="quiz-header rounded-lg p-6 mb-6"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
@@ -102,10 +103,10 @@ export function QuizView() {
         >
           <div className="flex items-center gap-4">
             <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: currentCourse.color + '15' }}
+              className="w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: 'var(--td-bg-color-component)' }}
             >
-              <FileQuestion size={28} color={currentCourse.color} />
+              <FileQuestion size={28} color={courseTone} />
             </div>
             <div>
               <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--td-text-color-primary)' }}>
@@ -127,7 +128,7 @@ export function QuizView() {
           {currentCourse.quiz.map((q, qIndex) => (
             <div
               key={q.id}
-              className="rounded-xl p-5"
+              className="quiz-question rounded-lg p-5"
               style={{
                 backgroundColor: 'var(--td-bg-color-container)',
                 border: '1px solid var(--td-component-stroke)',
@@ -138,10 +139,10 @@ export function QuizView() {
                   className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-semibold"
                   style={{
                     backgroundColor: answers[q.id] !== undefined
-                      ? currentCourse.color + '15'
+                      ? 'var(--td-brand-color-light)'
                       : 'var(--td-bg-color-component)',
                     color: answers[q.id] !== undefined
-                      ? currentCourse.color
+                      ? courseTone
                       : 'var(--td-text-color-secondary)',
                   }}
                 >
@@ -161,10 +162,10 @@ export function QuizView() {
                     className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-150"
                     style={{
                       backgroundColor: answers[q.id] === oIndex
-                        ? currentCourse.color + '08'
+                        ? 'var(--td-brand-color-light)'
                         : 'transparent',
                       border: `1px solid ${answers[q.id] === oIndex
-                        ? currentCourse.color + '40'
+                        ? 'var(--td-brand-color)'
                         : 'var(--td-component-stroke)'}`,
                     }}
                     onClick={() => {
@@ -192,7 +193,7 @@ export function QuizView() {
 
         {/* 提交区域 */}
         <div
-          className="rounded-xl p-4 flex items-center justify-between sticky bottom-0"
+          className="quiz-submit rounded-lg p-4 flex items-center justify-between sticky bottom-0"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
@@ -206,7 +207,7 @@ export function QuizView() {
               </>
             ) : (
               <>
-                <CheckCircle size={16} color="#2BA471" />
+                <CheckCircle size={16} color="var(--td-success-color)" />
                 <span>所有题目已完成，可以提交</span>
               </>
             )}
@@ -243,23 +244,23 @@ function QuizResultView({
   onBackToDashboard: () => void;
 }) {
   const passed = result.passed;
-  const scoreColor = passed ? '#2BA471' : '#D54941';
-  const bgColor = passed ? '#E8F8F0' : '#FFF0F0';
+  const scoreColor = passed ? 'var(--td-success-color)' : 'var(--td-error-color)';
+  const bgColor = passed ? 'var(--td-success-color-1)' : 'var(--td-error-color-1)';
 
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-3xl mx-auto p-6 lg:p-8">
         {/* 结果卡片 */}
         <div
-          className="rounded-2xl p-8 mb-6 text-center"
+          className="quiz-result rounded-lg p-8 mb-6 text-center"
           style={{
             backgroundColor: bgColor,
-            border: `1px solid ${scoreColor}30`,
+            border: `1px solid ${passed ? 'var(--td-success-color)' : 'var(--td-error-color)'}`,
           }}
         >
           <div
             className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
-            style={{ backgroundColor: scoreColor + '20' }}
+            style={{ backgroundColor: bgColor }}
           >
             {passed ? (
               <Award size={40} color={scoreColor} />
@@ -275,7 +276,7 @@ function QuizResultView({
               ? `您已完成 ${course.title} 课程考核`
               : `及格线为 ${result.passThreshold} 分，您差 ${result.passThreshold - result.score} 分通过`}
           </p>
-          <div className="inline-flex items-center gap-6 px-8 py-4 rounded-xl" style={{ backgroundColor: 'white' }}>
+          <div className="inline-flex items-center gap-6 px-8 py-4 rounded-lg" style={{ backgroundColor: 'var(--td-bg-color-container)' }}>
             <div>
               <div className="text-3xl font-bold" style={{ color: scoreColor }}>
                 {result.score}
@@ -300,23 +301,23 @@ function QuizResultView({
           {result.results.map((r, idx) => (
             <div
               key={r.questionId}
-              className="rounded-xl p-4"
+              className="quiz-answer-detail rounded-lg p-4"
               style={{
                 backgroundColor: 'var(--td-bg-color-container)',
-                border: `1px solid ${r.isCorrect ? '#2BA47130' : '#D5494130'}`,
+                border: `1px solid ${r.isCorrect ? 'var(--td-success-color)' : 'var(--td-error-color)'}`,
               }}
             >
               <div className="flex items-start gap-3 mb-3">
                 <div
                   className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{
-                    backgroundColor: r.isCorrect ? '#2BA47115' : '#D5494115',
+                    backgroundColor: r.isCorrect ? 'var(--td-success-color-1)' : 'var(--td-error-color-1)',
                   }}
                 >
                   {r.isCorrect ? (
-                    <CheckCircle size={16} color="#2BA471" />
+                    <CheckCircle size={16} color="var(--td-success-color)" />
                   ) : (
-                    <XCircle size={16} color="#D54941" />
+                    <XCircle size={16} color="var(--td-error-color)" />
                   )}
                 </div>
                 <div className="flex-1">
@@ -335,9 +336,9 @@ function QuizResultView({
                     className="flex items-center gap-2 text-sm py-1"
                     style={{
                       color: oi === r.correctAnswer
-                        ? '#2BA471'
+                        ? 'var(--td-success-color)'
                         : oi === r.userAnswer && !r.isCorrect
-                        ? '#D54941'
+                        ? 'var(--td-error-color)'
                         : 'var(--td-text-color-secondary)',
                     }}
                   >
