@@ -274,6 +274,7 @@ app.post("/api/sessions", (req, res) => {
       id: uuidv4(),
       title,
       model,
+      sdk_session_id: null,
       created_at: now,
       updated_at: now
     });
@@ -573,7 +574,7 @@ app.post("/api/chat", async (req, res) => {
             }
           }
         }
-      } else if (msg.type === "tool_result") {
+      } else if ((msg as any).type === "tool_result") {
         // 处理工具结果（独立的消息类型）
         const msgAny = msg as any;
         const toolId = msgAny.tool_use_id || currentToolId;
@@ -607,7 +608,7 @@ app.post("/api/chat", async (req, res) => {
             res.write(`data: ${JSON.stringify({ type: "tool_result", toolId: tool.id, content: tool.result || "已完成" })}\n\n`);
           }
         });
-        res.write(`data: ${JSON.stringify({ type: "done", duration: msg.duration, cost: msg.cost })}\n\n`);
+        res.write(`data: ${JSON.stringify({ type: "done", duration: msg.duration_ms, cost: msg.total_cost_usd })}\n\n`);
       }
     }
 

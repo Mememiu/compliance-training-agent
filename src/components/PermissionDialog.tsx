@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { Dialog, Button, Tag, Descriptions } from 'tdesign-react';
 import { 
   TerminalIcon, 
@@ -18,7 +19,7 @@ interface PermissionDialogProps {
 }
 
 // 工具名称到图标和颜色的映射
-const TOOL_CONFIG: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
+const TOOL_CONFIG: Record<string, { icon: ReactElement; color: string; label: string }> = {
   'Bash': { icon: <TerminalIcon />, color: '#B94B43', label: '执行命令' },
   'Write': { icon: <EditIcon />, color: '#182126', label: '写入文件' },
   'Edit': { icon: <EditIcon />, color: '#182126', label: '编辑文件' },
@@ -151,10 +152,7 @@ export function PermissionDialog({ visible, request, onAllow, onDeny }: Permissi
           ) : inputItems.length > 0 ? (
             // 其他工具使用描述列表
             <Descriptions 
-              column={1} 
-              itemStyle={{ 
-                paddingBottom: '8px'
-              }}
+              column={1}
               labelStyle={{
                 width: '80px',
                 color: 'var(--td-text-color-secondary)'
@@ -164,13 +162,8 @@ export function PermissionDialog({ visible, request, onAllow, onDeny }: Permissi
                 fontSize: 'var(--font-code-size)',
                 wordBreak: 'break-all'
               }}
-            >
-              {inputItems.map((item, index) => (
-                <Descriptions.Item key={index} label={item.label}>
-                  {item.content}
-                </Descriptions.Item>
-              ))}
-            </Descriptions>
+              items={inputItems.map(item => ({ label: item.label, content: item.content }))}
+            />
           ) : (
             <div 
               className="text-sm"

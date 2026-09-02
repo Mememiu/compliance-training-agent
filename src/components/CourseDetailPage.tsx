@@ -76,7 +76,7 @@ export function CourseDetailPage() {
 
     await updateProgress(courseId, {
       status: 'in_progress',
-      lesson_id: targetLesson.id,
+      lessonId: targetLesson.id,
       progress: Math.round((currentCourse.lessons.indexOf(targetLesson) / currentCourse.lessons.length) * 100),
     });
 

@@ -383,8 +383,7 @@ function QuizResultView({
             </Button>
             <Button
               theme="primary"
-              icon={<ArrowRight size={18} />}
-              iconAfter
+              suffix={<ArrowRight size={18} />}
               onClick={onBackToDashboard}
             >
               {passed ? '返回培训首页' : '返回继续学习'}

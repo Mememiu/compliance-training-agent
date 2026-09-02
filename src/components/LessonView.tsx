@@ -33,7 +33,7 @@ export function LessonView() {
         const prog = Math.round(((lessonIndex + 1) / currentCourse.lessons.length) * 100);
         updateProgress(courseId, {
           status: 'in_progress',
-          lesson_id: lessonId,
+          lessonId,
           progress: prog,
         });
       }
@@ -80,7 +80,7 @@ export function LessonView() {
       // 最后一课，更新进度为100%并跳转到测验
       await updateProgress(courseId, {
         status: 'in_progress',
-        lesson_id: lessonId,
+        lessonId,
         progress: 100,
       });
       navigate(`/course/${courseId}/quiz`);
@@ -205,8 +205,7 @@ export function LessonView() {
           <Button
             theme="primary"
             loading={updating}
-            icon={!isLastLesson ? <ChevronRight size={18} /> : <CheckCircle size={18} />}
-            iconAfter
+            suffix={!isLastLesson ? <ChevronRight size={18} /> : <CheckCircle size={18} />}
             onClick={handleComplete}
           >
             {isLastLesson ? '完成学习，前往测验' : '下一课'}

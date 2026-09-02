@@ -255,7 +255,12 @@ export function useChat(options: UseChatOptions) {
               ...s,
               messages: s.messages.map(m =>
                 m.id === tempAssistantMessageId
-                  ? { ...m, content: displayedContent, model: selectedModel, contentBlocks: [{ type: 'text', text: displayedContent }] }
+                  ? {
+                      ...m,
+                      content: displayedContent,
+                      model: selectedModel,
+                      contentBlocks: [{ type: 'text' as const, text: displayedContent }],
+                    }
                   : m
               )
             };

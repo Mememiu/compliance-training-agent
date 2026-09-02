@@ -1,13 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import {
   CourseSummary,
-  Course,
   TrainingProgress,
   QuizSubmissionResult,
   DashboardStats,
   DashboardCourse,
 } from '../types';
-import { COURSES } from '../data/courses';
+import { COURSES, Course as CourseData } from '../data/courses';
 
 const USER_ID = 'default';
 const PROGRESS_STORAGE_KEY = 'compliance_training_progress';
@@ -52,7 +51,7 @@ export function useTraining() {
   const [courses, setCourses] = useState<CourseSummary[]>([]);
   const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
   const [dashboardCourses, setDashboardCourses] = useState<DashboardCourse[]>([]);
-  const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
+  const [currentCourse, setCurrentCourse] = useState<CourseData | null>(null);
   const [progress, setProgress] = useState<Record<string, TrainingProgress | null>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
