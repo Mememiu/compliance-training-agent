@@ -17,6 +17,31 @@ colors:
   action-red: "#B94B43"
   info-blue: "#4E7FA3"
   rule: "#D4DDDF"
+  paper-soft-rule: "#E8E7DF"
+  paper-muted: "#C9D0D1"
+  paper-label: "#6D7E83"
+  paper-copy: "#5D6C71"
+  paper-toolbar: "#C2CBCA"
+  paper-secondary: "#899598"
+  paper-wash: "#EDF0DF"
+  paper-border: "#C6CECC"
+  card-coral: "#F6D5D0"
+  card-coral-ink: "#7E302B"
+  card-lavender: "#DCD5FA"
+  card-lavender-ink: "#4A397A"
+  card-mint: "#DCEFD8"
+  card-mint-ink: "#2D684A"
+  card-butter: "#F8E9A8"
+  card-butter-ink: "#765D16"
+  shape-lavender: "#D4C8F3"
+  shape-yellow: "#F3DE8B"
+  shape-blue: "#AECFE0"
+  assistant-wash: "#E5EDCF"
+  assistant-wash-hover: "#DBE8BA"
+  assistant-copy: "#60716D"
+  note-copy: "#728186"
+  code-copy: "#8A989A"
+  metadata-copy: "#77878B"
 typography:
   display:
     fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif"
@@ -35,10 +60,40 @@ typography:
     fontSize: "12px"
     fontWeight: 500
     lineHeight: 1.4
+  serif-display:
+    fontFamily: "Noto Serif SC, Songti SC, STSong, serif"
+    fontSize: "48px"
+    fontWeight: 600
+    lineHeight: 1.15
+  scale:
+    micro: "10px"
+    metadata: "11px"
+    label: "13px"
+    copy-small: "14px"
+    copy-mobile: "15px"
+    action: "17px"
+    title-small: "20px"
+    title-card: "21px"
+    title-card-large: "22px"
+    stat: "27px"
+    section: "28px"
+    scene-title: "31px"
+    headline-mobile: "38px"
+    headline-compact: "42px"
+    headline: "46px"
+    headline-display: "58px"
+    headline-wide: "78px"
 rounded:
   sm: "4px"
   md: "8px"
   lg: "12px"
+  soft: "7px"
+  brand: "9px"
+  panel: "15px"
+  card: "16px"
+  card-compact: "17px"
+  scene: "22px"
+  pill: "99px"
 spacing:
   xs: "4px"
   sm: "8px"
@@ -77,12 +132,17 @@ components:
 
 This system treats training as a readable score rather than a stack of generic cards. Warm paper is the quiet reading ground; deep score ink carries hierarchy; stepped notation blocks show sequence and dependency; one fluorescent lime marker identifies the current action. The visual world should feel authored and operational, with enough character to be remembered but enough restraint for sensitive policy topics and long-form lessons.
 
+The current employee home extends that score into a paper workspace inspired by editorial productivity tools: a quiet canvas, a floating document preview, soft color-coded course sheets, large serif wayfinding, and motion that explains what changed. The reference is a compositional cue, not a copied brand or content system. The course cards stay factual and task-led so the page still works as a recurring employee tool rather than a marketing landing page.
+
 The product name is intentionally not embedded in the mark. The identity survives a future rename and can stretch from compliance into security, policy, business, culture, and other company learning topics.
 
 **Key Characteristics:**
 - Notation is functional: it encodes order, progress, version, focus, or dependency.
 - One high-signal lime state is rarer than the ink and paper field.
 - Dense information is organized by staff lines, margin notes, and stepped rhythm rather than nested card stacks.
+- Paper workspace surfaces use restrained coral, lavender, mint, and butter sheets to distinguish course domains without turning status into decoration.
+- Serif display type carries orientation and memory; sans-serif copy carries instructions; IBM Plex Mono carries dates, durations, and progress data.
+- Motion is reserved for the next action, course preview changes, and card lift so the employee can understand state at a glance.
 
 ## Colors
 

@@ -51,7 +51,8 @@ export function Header({
 
   return (
     <header
-      className="h-14 flex justify-between items-center px-4 flex-shrink-0"
+      className="app-header h-14 flex justify-between items-center px-4 flex-shrink-0"
+      data-surface={isTrainingPage ? 'training' : isChatPage ? 'chat' : 'settings'}
       style={{
         backgroundColor: 'var(--td-bg-color-page)'
       }}
@@ -63,6 +64,10 @@ export function Header({
           icon={sidebarOpen ? <MenuFoldIcon /> : <MenuUnfoldIcon />}
           onClick={onToggleSidebar}
         />
+        <div className="app-header__brand" aria-label={APP_CONFIG.name}>
+          <img src={`${import.meta.env.BASE_URL}brand/learning-score-mark.svg`} alt="" />
+          <span>{APP_CONFIG.name}</span>
+        </div>
         {isChatPage && currentAgent && (
           <div
             className="w-7 h-7 rounded-lg flex items-center justify-center"
@@ -75,7 +80,7 @@ export function Header({
           </div>
         )}
         <h1
-          className="text-base font-semibold"
+          className="app-header__title text-base font-semibold"
           style={{ color: 'var(--td-text-color-primary)' }}
         >
           {pageTitle}

@@ -47,7 +47,7 @@ export function Sidebar({
       }}
     >
       {/* Logo */}
-      <div className="h-14 px-4 flex items-center flex-shrink-0">
+      <div className="app-sidebar__brand h-14 px-4 flex items-center flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"

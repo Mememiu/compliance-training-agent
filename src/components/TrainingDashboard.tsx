@@ -1,23 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Progress, Tag, Loading } from 'tdesign-react';
+import { Loading } from 'tdesign-react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
-  GraduationCap,
-  CheckCircle,
-  PlayCircle,
-  Clock,
-  Award,
-  TrendingUp,
+  ArrowUpRight,
   BookOpen,
+  Check,
+  ChevronLeft,
   ChevronRight,
+  Clock3,
+  MessageCircle,
+  Play,
+  Sparkles,
 } from 'lucide-react';
 import { useTraining } from '../hooks/useTraining';
 import { DashboardCourse } from '../types';
 import { ICON_MAP } from '../utils/iconMap';
+import { TextRotate } from './fancy/TextRotate';
+
+const COURSE_PALETTES = [
+  { surface: '#f6d5d0', ink: '#7e302b' },
+  { surface: '#dcd5fa', ink: '#4a397a' },
+  { surface: '#dcefd8', ink: '#2d684a' },
+  { surface: '#f8e9a8', ink: '#765d16' },
+];
 
 export function TrainingDashboard() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
   const { dashboardStats, dashboardCourses, loading, fetchDashboard } = useTraining();
+  const [featuredIndex, setFeaturedIndex] = useState(0);
 
   useEffect(() => {
     fetchDashboard();
@@ -25,7 +37,7 @@ export function TrainingDashboard() {
 
   if (loading && !dashboardStats) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="training-loading" aria-label="正在加载培训内容">
         <Loading size="large" />
       </div>
     );
@@ -41,244 +53,243 @@ export function TrainingDashboard() {
     completionRate: 0,
   };
 
-  const statCards = [
-    {
-      label: '课程总数',
-      value: stats.totalCourses,
-      icon: BookOpen,
-      color: 'var(--td-info-color)',
-      bgColor: 'var(--td-bg-color-secondarycontainer)',
-    },
-    {
-      label: '已完成',
-      value: stats.completedCourses,
-      icon: CheckCircle,
-      color: 'var(--td-success-color)',
-      bgColor: 'var(--td-success-color-1)',
-    },
-    {
-      label: '学习中',
-      value: stats.inProgressCourses,
-      icon: PlayCircle,
-      color: 'var(--td-warning-color)',
-      bgColor: 'var(--td-warning-color-1)',
-    },
-    {
-      label: '平均成绩',
-      value: `${stats.avgScore}分`,
-      icon: Award,
-      color: 'var(--td-brand-color)',
-      bgColor: 'var(--td-bg-color-component)',
-    },
-  ];
+  const nextCourse = useMemo(
+    () => dashboardCourses.find((course) => course.status === 'in_progress')
+      || dashboardCourses.find((course) => course.status === 'not_started')
+      || dashboardCourses[0],
+    [dashboardCourses],
+  );
+
+  const featuredCourse = dashboardCourses[featuredIndex] || nextCourse;
+  const featuredPalette = COURSE_PALETTES[featuredIndex % COURSE_PALETTES.length];
+
+  const moveFeatured = (direction: number) => {
+    if (dashboardCourses.length < 2) return;
+    setFeaturedIndex((current) => (current + direction + dashboardCourses.length) % dashboardCourses.length);
+  };
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      <div className="max-w-6xl mx-auto p-6 lg:p-8">
-        {/* 欢迎区域 */}
-        <div
-          className="training-hero rounded-lg p-6 lg:p-8 mb-6"
-          style={{
-            backgroundColor: 'var(--score-ink)',
-          }}
-        >
-          <div className="flex items-start justify-between flex-wrap gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                  <GraduationCap size={28} color="white" />
-                </div>
-                <h1 className="text-2xl font-bold text-white">培训室</h1>
-              </div>
-              <p className="text-white/80 text-sm max-w-lg">
-                这里汇集公司各类学习内容。沿着你的学习谱，完成课程、理解场景，并在需要时回到 AI 学习助手。
-              </p>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">{stats.completionRate}%</div>
-                <div className="text-white/70 text-xs mt-1">完成率</div>
-              </div>
-              <div className="learning-score-hero" aria-label={`已完成 ${stats.completedCourses} 门课程，共 ${stats.totalCourses} 门`}>
-                <span className="learning-score-hero__line" />
-                {Array.from({ length: Math.max(stats.totalCourses, 4) }).map((_, index) => {
-                  const isDone = index < stats.completedCourses;
-                  const isCurrent = !isDone && index === stats.completedCourses;
-                  return (
-                    <span
-                      key={index}
-                      className={`learning-score-hero__mark${isDone ? ' is-done' : ''}${isCurrent ? ' is-current' : ''}`}
-                    />
-                  );
-                })}
-                <span className="learning-score-hero__caption">{stats.completedCourses}/{stats.totalCourses}</span>
-              </div>
-            </div>
+    <div className="training-dashboard">
+      <div className="training-dashboard__paper">
+        <div className="training-dashboard__topline">
+          <div className="training-dashboard__crumb">
+            <span className="training-dashboard__dot" />
+            <span>学习空间</span>
+            <span className="training-dashboard__slash">/</span>
+            <span className="training-dashboard__muted">{new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}</span>
+          </div>
+          <div className="training-dashboard__signal" aria-label={`${stats.completedCourses} 门课程已完成，共 ${stats.totalCourses} 门`}>
+            <span className="training-dashboard__signal-label">学习进度</span>
+            <span className="training-dashboard__signal-track">
+              {Array.from({ length: Math.max(stats.totalCourses, 4) }).map((_, index) => (
+                <span
+                  key={index}
+                  className={`training-dashboard__signal-mark${index < stats.completedCourses ? ' is-done' : ''}${index === stats.completedCourses ? ' is-current' : ''}`}
+                />
+              ))}
+            </span>
+            <span className="training-dashboard__signal-value">{stats.completionRate}%</span>
           </div>
         </div>
 
-        {/* 统计卡片 */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {statCards.map((card, i) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={i}
-                className="training-stat rounded-md p-4 flex items-center gap-3"
-                style={{
-                  backgroundColor: 'var(--td-bg-color-container)',
-                  border: '1px solid var(--td-component-stroke)',
-                }}
-              >
-                <div
-                  className="training-stat__icon w-11 h-11 rounded-md flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: card.bgColor }}
+        <section className="training-welcome" aria-labelledby="training-welcome-title">
+          <div className="training-welcome__copy">
+            <p className="training-welcome__eyebrow">今天，从一个清晰的下一步开始</p>
+            <h1 id="training-welcome-title">
+              把知识变成
+              <span>可以跟着走的路径</span>
+            </h1>
+            <p className="training-welcome__description">
+              课程、场景与考核都在这里。用一点时间，完成今天最重要的学习动作。
+            </p>
+            {nextCourse && (
+              <div className="training-welcome__actions">
+                <button
+                  type="button"
+                  className="training-action training-action--primary"
+                  onClick={() => navigate(`/course/${nextCourse.courseId}`)}
                 >
-                  <Icon size={22} color={card.color} />
-                </div>
-                <div>
-                  <div
-                    className="text-xl font-bold"
-                    style={{ color: 'var(--td-text-color-primary)' }}
-                  >
-                    {card.value}
-                  </div>
-                  <div
-                    className="text-xs"
-                    style={{ color: 'var(--td-text-color-secondary)' }}
-                  >
-                    {card.label}
-                  </div>
-                </div>
+                  <Play size={16} fill="currentColor" />
+                  <span>{nextCourse.progress > 0 ? '继续学习' : '开始学习'}</span>
+                  <ArrowUpRight size={16} />
+                </button>
+                <span className="training-welcome__caption">
+                  本周聚焦 <TextRotate texts={['隐私保护', '安全意识', '商业道德', '公司文化']} className="training-welcome__rotating" />
+                </span>
               </div>
-            );
-          })}
-        </div>
-
-        {/* 课程列表 */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2
-            className="text-lg font-semibold"
-            style={{ color: 'var(--td-text-color-primary)' }}
-          >
-            培训课程
-          </h2>
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--td-text-color-secondary)' }}>
-            <Clock size={14} />
-            <span>共 {stats.totalLessons} 个课时</span>
+            )}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {dashboardCourses.map((course) => (
-            <CourseCard
-              key={course.courseId}
-              course={course}
-              onClick={() => navigate(`/course/${course.courseId}`)}
-            />
-          ))}
-        </div>
-
-        {/* 底部提示 */}
-        <div
-          className="training-note mt-6 rounded-md p-4 flex items-start gap-3"
-          style={{
-            backgroundColor: 'var(--td-warning-color-1)',
-            border: '1px solid var(--td-warning-color-2)',
-          }}
-        >
-          <TrendingUp size={20} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--td-warning-color)' }} />
-          <div className="text-sm" style={{ color: 'var(--td-text-color-primary)' }}>
-            <strong>培训要求：</strong>
-            继续完成你的学习路径，课程负责人会持续更新内容和考核要求。
-            如有疑问，可随时点击左侧“AI 学习助手”进行咨询。
+          <div className="training-welcome__scene" aria-label="当前学习路径预览">
+            <div className="training-scene__paper">
+              <div className="training-scene__toolbar">
+                <span>今日学习</span>
+                <span className="training-scene__toolbar-dots"><i /><i /><i /></span>
+              </div>
+              <div className="training-scene__body">
+                <div className="training-scene__side-list">
+                  <span className="is-active">下一步</span>
+                  <span>课程库</span>
+                  <span>学习记录</span>
+                </div>
+                {featuredCourse ? (
+                  <motion.div
+                    className="training-scene__featured"
+                    key={featuredCourse.courseId}
+                    initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ backgroundColor: featuredPalette.surface, color: featuredPalette.ink }}
+                  >
+                    <div className="training-scene__featured-topline">
+                      <span>{featuredCourse.status === 'in_progress' ? '正在学习' : '推荐课程'}</span>
+                      <span className="training-scene__featured-icon"><BookOpen size={15} /></span>
+                    </div>
+                    <h2>{featuredCourse.title}</h2>
+                    <div className="training-scene__progress-row">
+                      <span>{featuredCourse.progress}% 完成</span>
+                      <span>{featuredCourse.lessonCount} 课时</span>
+                    </div>
+                    <div className="training-scene__progress-track">
+                      <motion.span
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.max(featuredCourse.progress, 4)}%` }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        style={{ backgroundColor: featuredPalette.ink }}
+                      />
+                    </div>
+                    <button type="button" onClick={() => navigate(`/course/${featuredCourse.courseId}`)}>
+                      查看课程 <ArrowUpRight size={15} />
+                    </button>
+                  </motion.div>
+                ) : (
+                  <div className="training-scene__empty">课程内容即将到达</div>
+                )}
+              </div>
+              <div className="training-scene__footer">
+                <span>员工学习台</span>
+                <span className="training-scene__footer-code">LS / 02</span>
+              </div>
+            </div>
+            <div className="training-scene__shape training-scene__shape--lavender" />
+            <div className="training-scene__shape training-scene__shape--yellow" />
+            <div className="training-scene__shape training-scene__shape--blue" />
           </div>
-        </div>
+        </section>
+
+        <section className="training-summary" aria-label="学习概览">
+          <div className="training-summary__item training-summary__item--wide">
+            <span className="training-summary__label">你的学习节奏</span>
+            <strong>{stats.inProgressCourses > 0 ? '保持得很好' : '准备好出发'}</strong>
+            <span className="training-summary__detail">{stats.inProgressCourses > 0 ? `正在进行 ${stats.inProgressCourses} 门课程` : '从第一门课程开始建立路径'}</span>
+          </div>
+          <div className="training-summary__item">
+            <span className="training-summary__label">已完成</span>
+            <strong>{stats.completedCourses}<small> 门</small></strong>
+            <span className="training-summary__detail">共 {stats.totalCourses} 门课程</span>
+          </div>
+          <div className="training-summary__item">
+            <span className="training-summary__label">累计课时</span>
+            <strong>{stats.totalLessons}<small> 节</small></strong>
+            <span className="training-summary__detail">平均成绩 {stats.avgScore || '--'} 分</span>
+          </div>
+          <button type="button" className="training-summary__assistant" onClick={() => navigate('/chat')}>
+            <span className="training-summary__assistant-icon"><MessageCircle size={17} /></span>
+            <span><strong>需要一点帮助？</strong><small>问问 AI 学习助手</small></span>
+            <ArrowUpRight size={16} />
+          </button>
+        </section>
+
+        <section className="training-courses" aria-labelledby="training-courses-title">
+          <div className="training-section-heading">
+            <div>
+              <h2 id="training-courses-title">你的课程空间</h2>
+              <p>按自己的节奏，完成每一个值得记住的场景。</p>
+            </div>
+            <span className="training-section-heading__meta">{stats.totalCourses} 门课程 · {stats.totalLessons} 个课时</span>
+          </div>
+
+          <div className="training-courses__layout">
+            <div className="training-course-grid">
+              {dashboardCourses.map((course, index) => (
+                <CourseCard
+                  key={course.courseId}
+                  course={course}
+                  index={index}
+                  reduceMotion={reduceMotion}
+                  onClick={() => navigate(`/course/${course.courseId}`)}
+                />
+              ))}
+            </div>
+            {featuredCourse && dashboardCourses.length > 1 && (
+              <div className="training-course-controls" aria-label="切换精选课程">
+                <button type="button" onClick={() => moveFeatured(-1)} aria-label="上一门课程"><ChevronLeft size={17} /></button>
+                <span><b>{String(featuredIndex + 1).padStart(2, '0')}</b> / {String(dashboardCourses.length).padStart(2, '0')}</span>
+                <button type="button" onClick={() => moveFeatured(1)} aria-label="下一门课程"><ChevronRight size={17} /></button>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="training-owner-note" aria-label="课程更新提示">
+          <div className="training-owner-note__mark"><Sparkles size={18} /></div>
+          <div>
+            <strong>课程会持续更新</strong>
+            <p>课程负责人正在把更多安全、制度、业务与文化内容加入学习空间。</p>
+          </div>
+          <span className="training-owner-note__code">ROOM / OPEN</span>
+        </section>
       </div>
     </div>
   );
 }
 
-function CourseCard({ course, onClick }: { course: DashboardCourse; onClick: () => void }) {
+function CourseCard({
+  course,
+  index,
+  reduceMotion,
+  onClick,
+}: {
+  course: DashboardCourse;
+  index: number;
+  reduceMotion: boolean | null;
+  onClick: () => void;
+}) {
   const Icon = ICON_MAP[course.icon] || BookOpen;
-
-  const statusConfig = {
-    not_started: { label: '未开始', color: 'var(--td-text-color-secondary)', bgColor: 'var(--td-bg-color-component)' },
-    in_progress: { label: '学习中', color: 'var(--td-warning-color)', bgColor: 'var(--td-warning-color-1)' },
-    completed: { label: '已完成', color: 'var(--td-success-color)', bgColor: 'var(--td-success-color-1)' },
-  };
-  const status = statusConfig[course.status];
+  const palette = COURSE_PALETTES[index % COURSE_PALETTES.length];
+  const isComplete = course.status === 'completed' && course.passed;
+  const status = isComplete ? '已完成' : course.status === 'in_progress' ? '学习中' : '未开始';
 
   return (
-    <div
-      className="course-card rounded-lg p-5 cursor-pointer transition-all duration-200 hover:shadow-lg group"
-      style={{
-        backgroundColor: 'var(--td-bg-color-container)',
-        border: '1px solid var(--td-component-stroke)',
-      }}
+    <motion.button
+      type="button"
+      className="training-course-card"
       onClick={onClick}
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: Math.min(index * 0.07, 0.28), ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reduceMotion ? undefined : { y: -6 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+      style={{ backgroundColor: palette.surface, color: palette.ink }}
     >
-      <div className="flex items-start gap-4 mb-3">
-        <div
-          className="course-card__mark w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: 'var(--td-bg-color-component)' }}
-        >
-          <Icon size={24} color="var(--td-brand-color)" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <h3
-              className="text-base font-semibold truncate"
-              style={{ color: 'var(--td-text-color-primary)' }}
-            >
-              {course.title}
-            </h3>
-          </div>
-          <div className="flex items-center gap-2">
-            <Tag size="small" variant="light" style={{ color: 'var(--td-text-color-primary)', borderColor: 'var(--td-component-stroke)' }}>
-              {course.difficulty}
-            </Tag>
-            <span className="text-xs" style={{ color: 'var(--td-text-color-secondary)' }}>
-              {course.lessonCount} 课时 · {course.estimatedTime}分钟
-            </span>
-          </div>
-        </div>
-        <div
-          className="px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0"
-          style={{ backgroundColor: status.bgColor, color: status.color }}
-        >
-          {status.label}
-        </div>
-      </div>
-
-      <p
-        className="text-sm mb-4 line-clamp-2"
-        style={{ color: 'var(--td-text-color-secondary)' }}
-      >
-        {course.category}
-      </p>
-
-      <div className="flex items-center gap-3">
-        <Progress
-          percentage={course.progress}
-          size="small"
-          style={{ flex: 1 }}
-          color="var(--td-brand-color)"
-        />
-        {course.score !== null && (
-          <span
-            className="text-xs font-medium flex-shrink-0"
-            style={{ color: course.passed ? 'var(--td-success-color)' : 'var(--td-error-color)' }}
-          >
-            {course.score}分
-          </span>
-        )}
-        <ChevronRight
-          size={18}
-          className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-          style={{ color: 'var(--td-text-color-secondary)' }}
-        />
-      </div>
-    </div>
+      <span className="training-course-card__topline">
+        <span className="training-course-card__category">{course.category}</span>
+        <span className={`training-course-card__status${isComplete ? ' is-complete' : ''}`}>
+          {isComplete && <Check size={12} />}
+          {status}
+        </span>
+      </span>
+      <span className="training-course-card__icon"><Icon size={22} /></span>
+      <span className="training-course-card__title">{course.title}</span>
+      <span className="training-course-card__meta">
+        <span><Clock3 size={13} /> {course.estimatedTime} 分钟</span>
+        <span>{course.lessonCount} 课时</span>
+      </span>
+      <span className="training-course-card__bottomline">
+        <span className="training-course-card__progress-track"><span style={{ width: `${course.progress}%`, backgroundColor: palette.ink }} /></span>
+        <span className="training-course-card__progress-value">{course.progress}%</span>
+        <ArrowUpRight size={17} className="training-course-card__arrow" />
+      </span>
+    </motion.button>
   );
 }
