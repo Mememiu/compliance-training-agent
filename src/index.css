@@ -1764,16 +1764,34 @@ select {
 
 .training-courses__layout {
   position: relative;
+  padding-bottom: 52px;
 }
 
 .training-course-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  min-height: 322px;
+  place-items: center;
+  isolation: isolate;
+}
+
+.training-course-stack-item {
+  width: clamp(340px, 42vw, 480px);
+  grid-area: 1 / 1;
+  opacity: var(--course-stack-opacity);
+  pointer-events: none;
+  transform: translate3d(var(--course-stack-x), var(--course-stack-y), 0) scale(var(--course-stack-scale));
+  transform-origin: 50% 100%;
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: var(--course-stack-order);
+}
+
+.training-course-stack-item.is-active {
+  pointer-events: auto;
 }
 
 .training-course-card {
   display: flex;
+  width: 100%;
   min-height: 274px;
   flex-direction: column;
   align-items: stretch;
@@ -1889,11 +1907,13 @@ select {
 }
 
 .training-course-controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 18px;
   color: #718084;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -1979,9 +1999,6 @@ select {
     border-left: 0;
   }
 
-  .training-course-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 760px) {
@@ -2089,7 +2106,26 @@ select {
   }
 
   .training-course-grid {
+    min-height: 0;
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .training-courses__layout {
+    padding-bottom: 0;
+  }
+
+  .training-course-stack-item {
+    width: 100%;
+    grid-area: auto;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .training-course-controls {
+    position: static;
+    margin-top: 18px;
   }
 
   .training-course-card {
@@ -2118,6 +2154,7 @@ select {
 
 @media (prefers-reduced-motion: reduce) {
   .training-action,
+  .training-course-stack-item,
   .training-course-card,
   .training-course-controls button,
   .training-summary__assistant {

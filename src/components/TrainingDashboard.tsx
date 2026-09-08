@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'tdesign-react';
 import { motion, useReducedMotion } from 'motion/react';
@@ -16,6 +16,7 @@ import {
 import { useTraining } from '../hooks/useTraining';
 import { DashboardCourse } from '../types';
 import { ICON_MAP } from '../utils/iconMap';
+import { getCourseStackOffset } from '../utils/courseStack';
 import { TextRotate } from './fancy/TextRotate';
 import SplitText from './react-bits/SplitText';
 
@@ -31,10 +32,26 @@ export function TrainingDashboard() {
   const reduceMotion = useReducedMotion();
   const { dashboardStats, dashboardCourses, loading, fetchDashboard } = useTraining();
   const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     fetchDashboard();
   }, [fetchDashboard]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 760px)');
+    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener('change', updateViewport);
+    return () => mediaQuery.removeEventListener('change', updateViewport);
+  }, []);
+
+  useEffect(() => {
+    setFeaturedIndex((current) => (
+      dashboardCourses.length > 0 ? current % dashboardCourses.length : 0
+    ));
+  }, [dashboardCourses.length]);
 
   if (loading && !dashboardStats) {
     return (
@@ -240,18 +257,38 @@ export function TrainingDashboard() {
 
           <div className="training-courses__layout">
             <div className="training-course-grid">
-              {dashboardCourses.map((course, index) => (
-                <CourseCard
-                  key={course.courseId}
-                  course={course}
-                  index={index}
-                  reduceMotion={reduceMotion}
-                  onClick={() => navigate(`/course/${course.courseId}`)}
-                />
-              ))}
+              {dashboardCourses.map((course, index) => {
+                const stackOffset = getCourseStackOffset(index, featuredIndex, dashboardCourses.length);
+                const visualOffset = Math.max(-3, Math.min(3, stackOffset));
+                const stackDepth = Math.abs(visualOffset);
+                const isActive = index === featuredIndex;
+                const stackStyle = {
+                  '--course-stack-x': `${visualOffset * 52}px`,
+                  '--course-stack-y': `${stackDepth * 15}px`,
+                  '--course-stack-scale': 1 - stackDepth * 0.045,
+                  '--course-stack-opacity': Math.max(0.46, 1 - stackDepth * 0.2),
+                  '--course-stack-order': dashboardCourses.length - stackDepth,
+                } as CSSProperties;
+
+                return (
+                  <div
+                    key={course.courseId}
+                    className={`training-course-stack-item${isActive ? ' is-active' : ''}`}
+                    style={stackStyle}
+                  >
+                    <CourseCard
+                      course={course}
+                      index={index}
+                      reduceMotion={reduceMotion}
+                      isInteractive={isMobileViewport || isActive}
+                      onClick={() => navigate(`/course/${course.courseId}`)}
+                    />
+                  </div>
+                );
+              })}
             </div>
             {featuredCourse && dashboardCourses.length > 1 && (
-              <div className="training-course-controls" aria-label="切换精选课程">
+              <div className="training-course-controls" aria-label={`切换课程，当前为${featuredCourse.title}`}>
                 <button type="button" onClick={() => moveFeatured(-1)} aria-label="上一门课程"><ChevronLeft size={17} /></button>
                 <span><b>{String(featuredIndex + 1).padStart(2, '0')}</b> / {String(dashboardCourses.length).padStart(2, '0')}</span>
                 <button type="button" onClick={() => moveFeatured(1)} aria-label="下一门课程"><ChevronRight size={17} /></button>
@@ -277,11 +314,13 @@ function CourseCard({
   course,
   index,
   reduceMotion,
+  isInteractive,
   onClick,
 }: {
   course: DashboardCourse;
   index: number;
   reduceMotion: boolean | null;
+  isInteractive: boolean;
   onClick: () => void;
 }) {
   const Icon = ICON_MAP[course.icon] || BookOpen;
@@ -294,6 +333,8 @@ function CourseCard({
       type="button"
       className="training-course-card"
       onClick={onClick}
+      tabIndex={isInteractive ? 0 : -1}
+      aria-hidden={!isInteractive}
       initial={reduceMotion ? false : { opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.07, 0.28), ease: [0.22, 1, 0.36, 1] }}
