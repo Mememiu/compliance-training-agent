@@ -664,7 +664,7 @@ app.listen(PORT, () => {
 
 // ============= 培训 API =============
 
-import { COURSES, getCourseById } from '../src/data/courses.js';
+import { COURSES, getCourseById, resolveCourseId } from '../src/data/courses.js';
 
 // 企业学习 AI 助手系统提示词
 const TRAINING_SYSTEM_PROMPT = `你是公司的企业学习助手，帮助员工学习和理解公司课程与制度。你的职责包括：
@@ -682,9 +682,8 @@ const TRAINING_SYSTEM_PROMPT = `你是公司的企业学习助手，帮助员工
 - 涉及具体法律建议时，建议咨询公司法务部门
 
 你掌握的合规知识领域：
-- 数据合规与隐私保护（个人信息保护法、数据安全法）
+- 数据隐私与信息安全（个人信息保护法、数据安全法、密码安全、社会工程学防范）
 - 反腐败与商业道德（反不正当竞争法、刑法商业贿赂条款）
-- 信息安全意识（网络安全法、密码安全、社会工程学防范）
 - 劳动合规与职场行为（劳动合同法、反骚扰、平等就业）
 
 请以专业、友善、负责任的态度为员工提供学习指导。`;
@@ -739,7 +738,7 @@ app.get("/api/training/progress", (req, res) => {
 // 获取单个课程进度
 app.get("/api/training/progress/:courseId", (req, res) => {
   try {
-    const { courseId } = req.params;
+    const courseId = resolveCourseId(req.params.courseId);
     const userId = (req.query.userId as string) || 'default';
     const progress = db.getCourseProgress(userId, courseId);
     res.json({ progress: progress || null });
@@ -751,7 +750,7 @@ app.get("/api/training/progress/:courseId", (req, res) => {
 // 更新课程进度
 app.post("/api/training/progress/:courseId", (req, res) => {
   try {
-    const { courseId } = req.params;
+    const courseId = resolveCourseId(req.params.courseId);
     const userId = (req.body.userId as string) || 'default';
     const { status, progress, lessonId, score, passed } = req.body;
     
@@ -787,7 +786,7 @@ app.post("/api/training/progress/:courseId", (req, res) => {
 // 提交测验
 app.post("/api/training/quiz/:courseId/submit", (req, res) => {
   try {
-    const { courseId } = req.params;
+    const courseId = resolveCourseId(req.params.courseId);
     const userId = (req.body.userId as string) || 'default';
     const { answers } = req.body; // answers: { questionId: selectedOptionIndex }
     

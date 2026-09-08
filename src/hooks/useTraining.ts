@@ -6,17 +6,51 @@ import {
   DashboardStats,
   DashboardCourse,
 } from '../types';
-import { COURSES, Course as CourseData } from '../data/courses';
+import { COURSES, Course as CourseData, getCourseById, resolveCourseId } from '../data/courses';
 
 const USER_ID = 'default';
 const PROGRESS_STORAGE_KEY = 'compliance_training_progress';
+const PROGRESS_MIGRATION_KEY = 'compliance_training_progress_data_security_merged';
 
 // ========== localStorage 进度管理 ==========
 
 function loadAllProgress(): Record<string, TrainingProgress> {
   try {
     const saved = localStorage.getItem(PROGRESS_STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
+    const all: Record<string, TrainingProgress> = saved ? JSON.parse(saved) : {};
+
+    if (!localStorage.getItem(PROGRESS_MIGRATION_KEY)) {
+      const privacy = all['data-privacy'];
+      const security = all['info-security'];
+
+      if (privacy || security) {
+        const privacyProgress = privacy?.progress || 0;
+        const securityProgress = security?.progress || 0;
+        const progress = Math.round((privacyProgress + securityProgress) / 2);
+        const bothPassed = Boolean(privacy?.passed && security?.passed);
+        const scores = [privacy?.score, security?.score].filter((score): score is number => score !== null && score !== undefined);
+
+        all['data-privacy'] = {
+          ...(privacy || security),
+          id: `${USER_ID}_data-privacy`,
+          user_id: USER_ID,
+          course_id: 'data-privacy',
+          lesson_id: security?.lesson_id || privacy?.lesson_id || null,
+          status: bothPassed ? 'completed' : progress > 0 ? 'in_progress' : 'not_started',
+          progress,
+          score: scores.length === 2 ? Math.round((scores[0] + scores[1]) / 2) : null,
+          passed: bothPassed,
+          started_at: privacy?.started_at || security?.started_at || null,
+          completed_at: bothPassed ? (security?.completed_at || privacy?.completed_at || null) : null,
+        };
+        delete all['info-security'];
+        localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(all));
+      }
+
+      localStorage.setItem(PROGRESS_MIGRATION_KEY, '1');
+    }
+
+    return all;
   } catch {
     // ignore
   }
@@ -24,12 +58,14 @@ function loadAllProgress(): Record<string, TrainingProgress> {
 }
 
 function saveProgress(courseId: string, progress: TrainingProgress) {
+  courseId = resolveCourseId(courseId);
   const all = loadAllProgress();
   all[courseId] = progress;
   localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(all));
 }
 
 function getProgress(courseId: string): TrainingProgress {
+  courseId = resolveCourseId(courseId);
   const all = loadAllProgress();
   return all[courseId] || {
     id: `${USER_ID}_${courseId}`,
@@ -136,10 +172,11 @@ export function useTraining() {
   const fetchCourse = useCallback(async (courseId: string) => {
     setLoading(true);
     try {
-      const course = COURSES.find(c => c.id === courseId) || null;
+      const resolvedCourseId = resolveCourseId(courseId);
+      const course = getCourseById(resolvedCourseId) || null;
       setCurrentCourse(course);
-      const p = getProgress(courseId);
-      setProgress(prev => ({ ...prev, [courseId]: p }));
+      const p = getProgress(resolvedCourseId);
+      setProgress(prev => ({ ...prev, [resolvedCourseId]: p }));
     } catch (e: any) {
       setError(e?.message || 'Failed to load course');
     } finally {
@@ -153,11 +190,12 @@ export function useTraining() {
     updates: { status?: string; progress?: number; lessonId?: string; score?: number; passed?: boolean }
   ) => {
     try {
-      const existing = getProgress(courseId);
+      const resolvedCourseId = resolveCourseId(courseId);
+      const existing = getProgress(resolvedCourseId);
       const now = new Date().toISOString();
       const updated: TrainingProgress = {
         ...existing,
-        course_id: courseId,
+        course_id: resolvedCourseId,
         user_id: USER_ID,
         status: (updates.status as TrainingProgress['status']) || existing.status,
         progress: updates.progress !== undefined ? updates.progress : existing.progress,
@@ -167,8 +205,8 @@ export function useTraining() {
         started_at: existing.started_at || (updates.status === 'in_progress' ? now : null),
         completed_at: updates.status === 'completed' ? now : existing.completed_at,
       };
-      saveProgress(courseId, updated);
-      setProgress(prev => ({ ...prev, [courseId]: updated }));
+      saveProgress(resolvedCourseId, updated);
+      setProgress(prev => ({ ...prev, [resolvedCourseId]: updated }));
       return updated;
     } catch (e: any) {
       setError(e?.message || 'Failed to update progress');
@@ -180,7 +218,8 @@ export function useTraining() {
   const submitQuiz = useCallback(async (courseId: string, answers: Record<string, number>): Promise<QuizSubmissionResult | null> => {
     try {
       setLoading(true);
-      const course = COURSES.find(c => c.id === courseId);
+      const resolvedCourseId = resolveCourseId(courseId);
+      const course = getCourseById(resolvedCourseId);
       if (!course) {
         setError('Course not found');
         return null;
@@ -206,7 +245,7 @@ export function useTraining() {
       const passed = score >= course.passThreshold;
 
       // 保存进度
-      const updated = await updateProgress(courseId, {
+      const updated = await updateProgress(resolvedCourseId, {
         status: 'completed',
         progress: 100,
         score,
