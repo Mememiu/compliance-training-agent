@@ -1,0 +1,24 @@
+{
+  "id": "gifts",
+  "source": "isometric-professional-support-workers-set/40243.jpg",
+  "crop": {
+    "left": 3090,
+    "top": 140,
+    "width": 1300,
+    "height": 1265
+  },
+  "width": 1100,
+  "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/isometric-professional-support-workers-set/40243.jpg",
+  "sourceDimensions": [
+    4500,
+    4500
+  ],
+  "dimensions": [
+    1100,
+    1070
+  ],
+  "sourceSha256": "489db77da47b8d6af79477ec2afeea8aa278a91ee94cff5d12629b5906ce8c06",
+  "sha256": "a9d5722132d804f45ead825a83b292c7ee0c09946ff5019bd0107f7d29305005",
+  "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+  "processing": "Rectangular crop of complete workstation, preserving source background; resize and WebP encoding."
+}

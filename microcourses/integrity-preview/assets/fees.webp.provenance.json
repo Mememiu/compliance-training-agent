@@ -1,0 +1,24 @@
+{
+  "id": "fees",
+  "source": "isometric-professional-support-workers-set/40243.jpg",
+  "crop": {
+    "left": 1380,
+    "top": 220,
+    "width": 1630,
+    "height": 1120
+  },
+  "width": 1400,
+  "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/isometric-professional-support-workers-set/40243.jpg",
+  "sourceDimensions": [
+    4500,
+    4500
+  ],
+  "dimensions": [
+    1400,
+    962
+  ],
+  "sourceSha256": "489db77da47b8d6af79477ec2afeea8aa278a91ee94cff5d12629b5906ce8c06",
+  "sha256": "c78ea6358e5e39f54d45a475274323288d1a1dfc672a0409dc0d75dd84bbb68a",
+  "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+  "processing": "Rectangular crop of complete workstation, preserving source background; resize and WebP encoding."
+}
