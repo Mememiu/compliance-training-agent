@@ -1,0 +1,100 @@
+{
+  "title": "多停一秒 · 廉洁有度",
+  "version": "1.0.0",
+  "status": "User-approved V1 offline release; not deployed or integrated.",
+  "sourceLessons": [
+    "ac-1",
+    "ac-2",
+    "ac-3"
+  ],
+  "content": "src/data/integrity-stories.mjs",
+  "coordinates": "src/data/integrity-scenes.mjs",
+  "template": "src/integrity/course.html",
+  "htmlSha256": "b9da38167a9e5b3ad1a5e746428ad4e5a2023968de86e315b2fe59cbd028157e",
+  "assets": {
+    "fees": {
+      "id": "fees",
+      "source": "isometric-professional-support-workers-set/40243.jpg",
+      "crop": {
+        "left": 1380,
+        "top": 220,
+        "width": 1630,
+        "height": 1120
+      },
+      "width": 1400,
+      "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/isometric-professional-support-workers-set/40243.jpg",
+      "sourceDimensions": [
+        4500,
+        4500
+      ],
+      "dimensions": [
+        1400,
+        962
+      ],
+      "sourceSha256": "489db77da47b8d6af79477ec2afeea8aa278a91ee94cff5d12629b5906ce8c06",
+      "sha256": "c78ea6358e5e39f54d45a475274323288d1a1dfc672a0409dc0d75dd84bbb68a",
+      "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+      "processing": "Rectangular crop of complete workstation, preserving source background; resize and WebP encoding."
+    },
+    "conflict": {
+      "id": "conflict",
+      "source": "business-people-sitting-oval-desk-watching-lcd-screen-presentation-meeting-room-3d-isometric/1912.i109.028_meeting_room_isometric_set-03.jpg",
+      "width": 1600,
+      "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/business-people-sitting-oval-desk-watching-lcd-screen-presentation-meeting-room-3d-isometric/1912.i109.028_meeting_room_isometric_set-03.jpg",
+      "sourceDimensions": [
+        5500,
+        4500
+      ],
+      "dimensions": [
+        1600,
+        1309
+      ],
+      "sourceSha256": "018e5f934e762ded3beb59f0d07d3a604816e5b10dc1afb28e9401e11a89b4dd",
+      "sha256": "a237aa78a8140864d46301156bdfd410531cac6149b46d243a47ccbdfaafedae",
+      "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+      "processing": "Entire source composition; resize and WebP encoding."
+    },
+    "gifts": {
+      "id": "gifts",
+      "source": "isometric-professional-support-workers-set/40243.jpg",
+      "crop": {
+        "left": 3090,
+        "top": 140,
+        "width": 1300,
+        "height": 1265
+      },
+      "width": 1100,
+      "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/isometric-professional-support-workers-set/40243.jpg",
+      "sourceDimensions": [
+        4500,
+        4500
+      ],
+      "dimensions": [
+        1100,
+        1070
+      ],
+      "sourceSha256": "489db77da47b8d6af79477ec2afeea8aa278a91ee94cff5d12629b5906ce8c06",
+      "sha256": "a9d5722132d804f45ead825a83b292c7ee0c09946ff5019bd0107f7d29305005",
+      "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+      "processing": "Rectangular crop of complete workstation, preserving source background; resize and WebP encoding."
+    },
+    "reflection": {
+      "id": "reflection",
+      "source": "isometric-concept-esg-anti-corruption-policy-with-man-rejecting-bribe-3d-vector-illustration/2209.i301.024.F.m004.c9.ESG concept isometric background.jpg",
+      "width": 1200,
+      "sourcePath": "/Users/skyris/Downloads/ui 网页内素材/isometric-concept-esg-anti-corruption-policy-with-man-rejecting-bribe-3d-vector-illustration/2209.i301.024.F.m004.c9.ESG concept isometric background.jpg",
+      "sourceDimensions": [
+        5001,
+        5000
+      ],
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "sourceSha256": "087b33991d2301f2c1790aedc7a4201a84c4f48f870a39657e2005a52e8e2369",
+      "sha256": "64398ce1d3772be961fa3622fde1f8d5ac981ad5927c8658ba8e538aa015da58",
+      "origin": "User-provided stock illustration; permission not independently verified. No claim of newly generated artwork.",
+      "processing": "Entire source composition; resize and WebP encoding."
+    }
+  }
+}

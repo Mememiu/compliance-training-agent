@@ -1,8 +1,17 @@
 import type { TrainingProgress } from '../types';
 import { normalizePrivacyProgress, completePrivacyLesson, recordPrivacyMicrocourse, validateMicrocourseSnapshot } from './privacyProgress';
 import { normalizeRespectProgress, completeRespectLesson, recordRespectMicrocourse, validateRespectSnapshot } from './respectProgress';
+import { normalizeIntegrityProgress, completeIntegrityLesson, recordIntegrityMicrocourse, validateIntegritySnapshot } from './integrityProgress';
 
 const MICROCOURSES = {
+  'anti-corruption': {
+    asset: 'integrity', channel: 'training-room/integrity-v1', title: '多停一秒·廉洁有度', summary: '可疑费用、利益冲突与礼品处置三段情境',
+    unit: '情境练习', count: 3, instructions: '每段听完对话、核对四条记录、选择合适回应并查看复盘，点击「完成本段」；三段全部完成即完成本模块。',
+    normalize: normalizeIntegrityProgress, completeLesson: completeIntegrityLesson, record: recordIntegrityMicrocourse,
+    validate: validateIntegritySnapshot,
+    state: (p?: TrainingProgress | null) => p?.integrity_learning,
+    completed: (p?: TrainingProgress | null) => p?.integrity_learning?.microcourse?.completedStories.length || 0,
+  },
   'data-privacy': {
     asset: 'privacy', channel: 'training-room/privacy-v1', title: '多停一秒', summary: '六区隐患探索与自测',
     unit: '区域自测', count: 6, instructions: '每区完成隐患探索并答对自测后计入通关；六区全部通过即完成本模块。',

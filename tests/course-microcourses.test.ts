@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { getMicrocourse, acceptMicrocourseMessage, microcourseResumePath } from '../src/utils/courseMicrocourses';
 test('course registry isolates channels and supports only integrated courses', () => {
  const privacy=getMicrocourse('data-privacy')!, respect=getMicrocourse('labor-compliance')!;
- assert.equal(getMicrocourse('anti-corruption'), undefined);
+ const integrity=getMicrocourse('anti-corruption')!;
+ assert.equal(integrity.asset, 'integrity');
+ assert.equal(new Set([privacy.channel,respect.channel,integrity.channel]).size,3);
  assert.equal(getMicrocourse('constructor'), undefined);
  assert.notEqual(privacy.channel,respect.channel);
  const frame={} as Window, token='nonce', origin='https://example.org';
@@ -12,4 +14,8 @@ test('course registry isolates channels and supports only integrated courses', (
  assert.equal(acceptMicrocourseMessage(event(payload),frame,origin,token,respect)?.type,'state');
  for(const e of [event(payload,{} as Window),event(payload,frame,'https://other.org'),event({...payload,token:'old'}),event({...payload,channel:privacy.channel}),event({...payload,snapshot:{completed:true}})]) assert.equal(acceptMicrocourseMessage(e,frame,origin,token,respect),null);
  assert.equal(microcourseResumePath('labor-compliance',undefined,['lc-1','lc-2']),'/course/labor-compliance/lesson/lc-1');
+ const integrityPayload={channel:integrity.channel,type:'state',token,snapshot:{completedStories:['fees'],acceptedResponses:{fees:'direct'}}};
+ assert.equal(acceptMicrocourseMessage(event(integrityPayload),frame,origin,token,integrity)?.type,'state');
+ for(const config of [privacy,respect]) assert.equal(acceptMicrocourseMessage(event(integrityPayload),frame,origin,token,config),null);
+ assert.equal(acceptMicrocourseMessage(event({...payload,channel:integrity.channel}),frame,origin,token,integrity),null);
 });

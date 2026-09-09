@@ -52,7 +52,7 @@ function loadAllProgress(): Record<string, TrainingProgress> {
       localStorage.setItem(PROGRESS_MIGRATION_KEY, '1');
     }
 
-    for (const id of ['data-privacy', 'labor-compliance']) {
+    for (const id of ['data-privacy', 'labor-compliance', 'anti-corruption']) {
       if (all[id]) all[id] = normalizeCourseProgress(all[id], getCourseById(id)!.lessons.map(l => l.id));
     }
     return all;

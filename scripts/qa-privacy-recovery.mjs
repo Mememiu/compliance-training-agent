@@ -55,16 +55,6 @@ try {
   assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('training-room-privacy-game-v1')).completedOffices.length),0);
   assert.equal((await saved(page)).passed,true); await page.reload();await page.getByText('本模块已完成',{exact:true}).waitFor();
  });
- await run('other courses keep independent quizzes',async page=>{
-  for(const id of ['anti-corruption']) {
-   await page.goto(`${base}#/course/${id}`); await page.getByText('课程考核',{exact:true}).waitFor();
-   await page.getByRole('button',{name:'开始测验',exact:true}).click();await page.waitForURL(`**/${id}/quiz`);
-   await page.getByRole('radio').first().waitFor();assert.equal(await page.locator('iframe').count(),0);
-   for(const group of await page.locator('.quiz-question').all()) await group.locator('label').first().click();
-   await page.getByRole('button',{name:/提交/}).click();await page.getByText(/恭喜通过！|未通过，请继续努力/).waitFor();
-   assert.equal(await page.evaluate(id=>JSON.parse(localStorage.getItem('compliance_training_progress'))[id].status,id),'completed');
-  }
- });
  await run('corrupt stored JSON is reported and never overwritten',async(page,context)=>{
   await context.addInitScript(()=>{localStorage.setItem('compliance_training_progress','{broken');});
   await page.goto(`${base}#/course/data-privacy`);await page.getByRole('alert').waitFor();

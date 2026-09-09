@@ -134,6 +134,13 @@ export interface TrainingProgress {
   passed: boolean;
   started_at: string | null;
   completed_at: string | null;
+  integrity_learning?: {
+    version: 1;
+    completedLessonIds: string[];
+    microcourse?: { completedStories: string[]; acceptedResponses: Record<string, string> };
+    microcourseCompletedAt: string | null;
+    legacy?: Pick<TrainingProgress, 'status' | 'progress' | 'score' | 'passed' | 'completed_at' | 'lesson_id'>;
+  };
   respect_learning?: {
     version: 1;
     completedLessonIds: string[];

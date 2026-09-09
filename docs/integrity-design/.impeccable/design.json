@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-09T18:00:59+08:00",
+  "title": "Design System: 第三课局部设计",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "靛蓝操作" },
+      "ink": { "role": "neutral", "displayName": "墨蓝文字" },
+      "paper": { "role": "neutral", "displayName": "冷白页面" },
+      "teal": { "role": "secondary", "displayName": "原图衔接青蓝" }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "系统中文衬线标题", "purpose": "情境主标题；未内嵌字体，实际回退取决于设备。" },
+      "body": { "displayName": "系统中文无衬线正文", "purpose": "阅读与操作；未内嵌字体。" },
+      "dialogue": { "displayName": "逐句对话", "purpose": "右侧发言正文；移动端覆盖为20px。" }
+    },
+    "shadows": [
+      { "name": "workbench", "value": "0 18px 48px -24px #20315436", "purpose": "学习桌单层分离；插画投影来自原素材。" }
+    ],
+    "motion": [
+      { "name": "arrive", "value": "arrive .85s cubic-bezier(.16,1,.3,1)", "purpose": "仅场景换图时，从opacity .4与translateY(8px)到opacity 1与translateY(0)；减少动态效果偏好时关闭。" }
+    ],
+    "breakpoints": [
+      { "name": "wide-min", "value": "1600px" },
+      { "name": "compact-max", "value": "1000px" },
+      { "name": "stacked-max", "value": "760px" }
+    ],
+    "scope": {
+      "sourceOfTruth": "src/integrity/course.css",
+      "surface": "src/integrity/course.html",
+      "globalStandard": false,
+      "note": "只摘录真实实现；未合成未使用的色阶、材质或字体。"
+    },
+    "verification": {
+      "date": "2026-09-09",
+      "completed": ["独立源码／原图复核", "tests/integrity-stories.test.ts：13项jsdom／结构测试通过"],
+      "missing": ["实际页面桌面截图", "实际页面手机截图"],
+      "restriction": "浏览器工具拒绝访问后未绕过限制。",
+      "visualReleaseAccepted": false
+    }
+  },
+  "components": [
+    {
+      "name": "主要行动",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "当前学习步骤的主要行动。",
+      "html": "<button class=\"ds-primary\">开始听对话</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 22px;border:0;border-radius:9px;font-family:'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:15px;font-weight:600;line-height:1.6;background:var(--primary,#4f46e5);color:#fff;cursor:pointer}.ds-primary:hover{background:var(--primary-dark,#3931b8)}.ds-primary:focus-visible{outline:3px solid var(--primary,#4f46e5);outline-offset:5px}.ds-primary:disabled{background:#e4e8f0;color:#5c6880;cursor:not-allowed}"
+    },
+    {
+      "name": "次要行动",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "重听或回看。",
+      "html": "<button class=\"ds-secondary\">重听本段</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 22px;border:1px solid var(--line,#dce3ee);border-radius:9px;font-family:'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:15px;font-weight:600;line-height:1.6;background:#fff;color:var(--ink,#192c48);cursor:pointer}.ds-secondary:hover{background:#f2f5fb}.ds-secondary:focus-visible{outline:3px solid var(--primary,#4f46e5);outline-offset:5px}"
+    },
+    {
+      "name": "人物姓名入口",
+      "kind": "button",
+      "description": "图外人物按钮；示例展示当前发言者样式。",
+      "html": "<button class=\"ds-person ds-current\">许宁</button>",
+      "css": ".ds-person{border:1px solid var(--line,#dce3ee);padding:8px 12px;border-radius:8px;font-family:'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:13px;line-height:1.7;min-height:44px;text-align:left;background:none;color:var(--ink,#192c48);cursor:pointer}.ds-current{border-color:var(--primary,#4f46e5);background:#f0efff;color:#3931b8}.ds-person:hover{background:#f2f5fb}.ds-person:focus-visible{outline:3px solid var(--primary,#4f46e5);outline-offset:5px}.ds-person:disabled{cursor:not-allowed}"
+    },
+    {
+      "name": "学习步骤",
+      "kind": "nav",
+      "description": "非交互步骤指示；不能直接点击跳过学习。",
+      "html": "<ol class=\"ds-stepper\" aria-label=\"当前情境步骤\"><li aria-current=\"step\">听对话</li><li>核对记录</li><li>作决定</li><li>复盘</li></ol>",
+      "css": ".ds-stepper{display:flex;gap:0;margin:0 0 32px;padding:0;list-style:none;font-family:'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif;line-height:1.7}.ds-stepper li{font-size:12px;color:var(--muted,#52647b);flex:1;padding-bottom:9px;border-bottom:2px solid var(--line,#dce3ee);white-space:nowrap}.ds-stepper li[aria-current=step]{color:var(--primary,#4f46e5);border-color:var(--primary,#4f46e5);font-weight:600}"
+    },
+    {
+      "name": "学习桌",
+      "kind": "card",
+      "description": "左图右讨论的白色外容器；示例只展示容器，不伪造原图或业务内容。",
+      "html": "<div class=\"ds-workbench\"><section class=\"ds-scene\">业务场景</section><section class=\"ds-desk\">对话与决定</section></div>",
+      "css": ".ds-workbench{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(360px,.9fr);background:white;color:var(--ink,#192c48);font-family:'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:16px;line-height:1.7;border-radius:var(--radius,14px);box-shadow:0 18px 48px -24px #20315436;margin-bottom:30px;align-items:start}.ds-scene{min-width:0;padding:22px}.ds-desk{padding:28px 32px 32px;border-left:1px solid var(--line,#dce3ee);min-width:0}@media(max-width:760px){.ds-workbench{display:block}.ds-scene{padding:12px 12px 18px}.ds-desk{border-left:0;border-top:1px solid var(--line,#dce3ee);padding:24px 20px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "完整业务场景旁的学习桌",
+    "overview": "本文件只记录 `src/integrity/` 与 `src/data/integrity-scenes.mjs` 实现的第三课独立预览，不是培训室的全局设计规范。冷白阅读底、墨蓝文字和靛蓝操作件让完整现成 2.5D 业务插画居于视觉中心；讨论、业务记录、决定和复盘放在图外。方向来自已批准的页面 contract；不复用第二课办公室、人物或三聊天布局。\n\n视觉值的权威是 `src/integrity/course.css`；frontmatter 是当前源码的局部摘录，不另建全局 token 层。字体、材质与交互记录均只描述已实现内容。PRODUCT.md 提供员工学习、中文可读性和明确下一步的约束，不为本页提供企业品牌资产。",
+    "keyCharacteristics": ["完整插画与图外业务讨论并列，移动端上下堆叠。", "三个情境顺序解锁，每段沿四个可见学习步骤推进。", "靛蓝强调当前步骤与主要行动，状态同时使用文字和图标。"],
+    "rules": [],
+    "dos": ["Do 保留展示图完整构图，并让热点坐标跟随同一原始比例平面。", "Do 在本页范围内保持冷白、墨蓝、靛蓝 UI 与图外讨论。", "Do 保留三段顺序门禁、文字状态和键盘替代入口。"],
+    "donts": ["Don't 重绘、拆分人物身体，或用 cover、蒙版、缩放裁掉人物与家具。", "Don't 复用第二课办公室、人物或三聊天布局。", "Don't 把本页构图提升为全培训室规范，或把源码／jsdom 通过写成视觉发布已验收。"]
+  }
+}
