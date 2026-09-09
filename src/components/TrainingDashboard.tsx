@@ -53,6 +53,13 @@ export function TrainingDashboard() {
     ));
   }, [dashboardCourses.length]);
 
+  const nextCourse = useMemo(
+    () => dashboardCourses.find((course) => course.status === 'in_progress')
+      || dashboardCourses.find((course) => course.status === 'not_started')
+      || dashboardCourses[0],
+    [dashboardCourses],
+  );
+
   if (loading && !dashboardStats) {
     return (
       <div className="training-loading" aria-label="正在加载培训内容">
@@ -70,13 +77,6 @@ export function TrainingDashboard() {
     avgScore: 0,
     completionRate: 0,
   };
-
-  const nextCourse = useMemo(
-    () => dashboardCourses.find((course) => course.status === 'in_progress')
-      || dashboardCourses.find((course) => course.status === 'not_started')
-      || dashboardCourses[0],
-    [dashboardCourses],
-  );
 
   const featuredCourse = dashboardCourses[featuredIndex] || nextCourse;
   const featuredPalette = COURSE_PALETTES[featuredIndex % COURSE_PALETTES.length];

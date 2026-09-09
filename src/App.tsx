@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import '@tdesign-react/chat/es/style/index.js';
 
 import { useAgents } from './hooks/useAgents';
@@ -16,6 +16,9 @@ import { TrainingDashboard } from './components/TrainingDashboard';
 import { CourseDetailPage } from './components/CourseDetailPage';
 import { LessonView } from './components/LessonView';
 import { QuizView } from './components/QuizView';
+import { CourseMicrocourse } from './components/CourseMicrocourse';
+import { getMicrocourse } from './utils/courseMicrocourses';
+import { resolveCourseId } from './data/courses';
 
 function App() {
   return (
@@ -24,6 +27,7 @@ function App() {
       <Route path="/course/:courseId" element={<AppContent />} />
       <Route path="/course/:courseId/lesson/:lessonId" element={<AppContent />} />
       <Route path="/course/:courseId/quiz" element={<AppContent />} />
+      <Route path="/course/:courseId/microcourse" element={<AppContent />} />
       <Route path="/chat" element={<AppContent />} />
       <Route path="/chat/:sessionId" element={<AppContent />} />
       <Route path="/settings" element={<AppContent />} />
@@ -221,8 +225,10 @@ function AppContent() {
             onPermissionDeny={handlePermissionDeny}
             onPermissionModeChange={setPermissionMode}
           />
+        ) : location.pathname.startsWith('/course/') && location.pathname.includes('/microcourse') ? (
+          <CourseMicrocourse key={resolveCourseId(courseId || '')} />
         ) : location.pathname.startsWith('/course/') && location.pathname.includes('/quiz') ? (
-          <QuizView />
+          getMicrocourse(resolveCourseId(courseId || '')) ? <Navigate replace to={`/course/${resolveCourseId(courseId || '')}/microcourse`} /> : <QuizView />
         ) : location.pathname.startsWith('/course/') && location.pathname.includes('/lesson/') ? (
           <LessonView />
         ) : location.pathname.startsWith('/course/') ? (

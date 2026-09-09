@@ -7,6 +7,7 @@ import {
   DashboardCourse,
 } from '../types';
 import { COURSES, Course as CourseData, getCourseById, resolveCourseId } from '../data/courses';
+import { getMicrocourse, normalizeCourseProgress } from '../utils/courseMicrocourses';
 
 const USER_ID = 'default';
 const PROGRESS_STORAGE_KEY = 'compliance_training_progress';
@@ -18,12 +19,13 @@ function loadAllProgress(): Record<string, TrainingProgress> {
   try {
     const saved = localStorage.getItem(PROGRESS_STORAGE_KEY);
     const all: Record<string, TrainingProgress> = saved ? JSON.parse(saved) : {};
+    if (!all || typeof all !== 'object' || Array.isArray(all)) throw new Error('Invalid progress storage');
 
     if (!localStorage.getItem(PROGRESS_MIGRATION_KEY)) {
       const privacy = all['data-privacy'];
       const security = all['info-security'];
 
-      if (privacy || security) {
+      if ((privacy || security) && !privacy?.privacy_learning) {
         const privacyProgress = privacy?.progress || 0;
         const securityProgress = security?.progress || 0;
         const progress = Math.round((privacyProgress + securityProgress) / 2);
@@ -50,11 +52,13 @@ function loadAllProgress(): Record<string, TrainingProgress> {
       localStorage.setItem(PROGRESS_MIGRATION_KEY, '1');
     }
 
+    for (const id of ['data-privacy', 'labor-compliance']) {
+      if (all[id]) all[id] = normalizeCourseProgress(all[id], getCourseById(id)!.lessons.map(l => l.id));
+    }
     return all;
   } catch {
-    // ignore
+    throw new Error('无法读取本地学习记录，请检查浏览器存储权限；现有记录未被覆盖。');
   }
-  return {};
 }
 
 function saveProgress(courseId: string, progress: TrainingProgress) {
@@ -67,7 +71,7 @@ function saveProgress(courseId: string, progress: TrainingProgress) {
 function getProgress(courseId: string): TrainingProgress {
   courseId = resolveCourseId(courseId);
   const all = loadAllProgress();
-  return all[courseId] || {
+  const existing: TrainingProgress = all[courseId] || {
     id: `${USER_ID}_${courseId}`,
     user_id: USER_ID,
     course_id: courseId,
@@ -79,6 +83,7 @@ function getProgress(courseId: string): TrainingProgress {
     started_at: null,
     completed_at: null,
   };
+  return normalizeCourseProgress(existing, getCourseById(courseId)?.lessons.map(l => l.id) || []);
 }
 
 // ========== Hook ==========
@@ -171,13 +176,15 @@ export function useTraining() {
   // 获取课程详情（本地数据）
   const fetchCourse = useCallback(async (courseId: string) => {
     setLoading(true);
+    setError(null);
     try {
       const resolvedCourseId = resolveCourseId(courseId);
       const course = getCourseById(resolvedCourseId) || null;
-      setCurrentCourse(course);
       const p = getProgress(resolvedCourseId);
+      setCurrentCourse(course);
       setProgress(prev => ({ ...prev, [resolvedCourseId]: p }));
     } catch (e: any) {
+      setCurrentCourse(null);
       setError(e?.message || 'Failed to load course');
     } finally {
       setLoading(false);
@@ -190,7 +197,9 @@ export function useTraining() {
     updates: { status?: string; progress?: number; lessonId?: string; score?: number; passed?: boolean }
   ) => {
     try {
+      setError(null);
       const resolvedCourseId = resolveCourseId(courseId);
+      if (getMicrocourse(resolvedCourseId)) throw new Error('本课程通过文字阅读确认及互动微课记录进度。');
       const existing = getProgress(resolvedCourseId);
       const now = new Date().toISOString();
       const updated: TrainingProgress = {
@@ -214,11 +223,33 @@ export function useTraining() {
     }
   }, []);
 
+  const saveMicrocourseStep = useCallback(async (courseId: string, kind: 'lesson' | 'microcourse', value: unknown) => {
+    setError(null);
+    try {
+      const id = resolveCourseId(courseId);
+      const config = getMicrocourse(id);
+      if (!config) throw new Error('本课程尚未接入互动微课。');
+      const existing = getProgress(id);
+      const ids = getCourseById(id)!.lessons.map(l => l.id);
+      const now = new Date().toISOString();
+      const updated = kind === 'lesson'
+        ? config.completeLesson(existing, ids, String(value), now)
+        : config.record(existing, ids, value, now);
+      saveProgress(id, updated);
+      setProgress(prev => ({ ...prev, [id]: updated }));
+      return updated;
+    } catch (e: any) {
+      setError(e?.message || '学习进度未能保存，请重试。');
+      return null;
+    }
+  }, []);
+
   // 提交测验（本地评分）
   const submitQuiz = useCallback(async (courseId: string, answers: Record<string, number>): Promise<QuizSubmissionResult | null> => {
     try {
       setLoading(true);
       const resolvedCourseId = resolveCourseId(courseId);
+      if (getMicrocourse(resolvedCourseId)) throw new Error('请通过互动微课完成本模块，原测验不再计入完成条件。');
       const course = getCourseById(resolvedCourseId);
       if (!course) {
         setError('Course not found');
@@ -251,6 +282,7 @@ export function useTraining() {
         score,
         passed,
       });
+      if (!updated) return null;
 
       // 刷新仪表盘
       fetchDashboard();
@@ -289,6 +321,7 @@ export function useTraining() {
     fetchCourses,
     fetchCourse,
     updateProgress,
+    saveMicrocourseStep,
     submitQuiz,
   };
 }

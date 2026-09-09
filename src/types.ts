@@ -134,6 +134,20 @@ export interface TrainingProgress {
   passed: boolean;
   started_at: string | null;
   completed_at: string | null;
+  respect_learning?: {
+    version: 1;
+    completedLessonIds: string[];
+    microcourse?: { completedStories: string[]; acceptedResponses: Record<string, string> };
+    microcourseCompletedAt: string | null;
+    legacy?: Pick<TrainingProgress, 'status' | 'progress' | 'score' | 'passed' | 'completed_at' | 'lesson_id'>;
+  };
+  privacy_learning?: {
+    version: 1;
+    completedLessonIds: string[];
+    microcourse?: { completedOffices: string[]; foundHazards: Record<string, string[]>; passedCheckpoints: string[] };
+    microcourseCompletedAt: string | null;
+    legacy?: Pick<TrainingProgress, 'status' | 'progress' | 'score' | 'passed' | 'completed_at' | 'lesson_id'>;
+  };
 }
 
 export interface QuizResultDetail {

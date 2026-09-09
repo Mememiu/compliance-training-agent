@@ -13,11 +13,13 @@ import {
 } from 'lucide-react';
 import { useTraining } from '../hooks/useTraining';
 import { ICON_MAP } from '../utils/iconMap';
+import { getMicrocourse, microcourseResumePath } from '../utils/courseMicrocourses';
+import { resolveCourseId } from '../data/courses';
 
 export function CourseDetailPage() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  const { currentCourse, progress, loading, fetchCourse, updateProgress } = useTraining();
+  const { currentCourse, progress, loading, error, fetchCourse, updateProgress } = useTraining();
   const [startingLesson, setStartingLesson] = useState(false);
 
   useEffect(() => {
@@ -34,11 +36,11 @@ export function CourseDetailPage() {
     );
   }
 
-  if (!currentCourse) {
+  if (!currentCourse || currentCourse.id !== resolveCourseId(courseId || '')) {
     return (
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
-          <p style={{ color: 'var(--td-text-color-secondary)' }}>课程不存在</p>
+          <p role={error ? 'alert' : undefined} style={{ color: 'var(--td-text-color-secondary)' }}>{error || '课程不存在'}</p>
           <Button className="mt-4" onClick={() => navigate('/')}>
             返回首页
           </Button>
@@ -51,14 +53,21 @@ export function CourseDetailPage() {
   const courseTone = 'var(--td-brand-color)';
   const courseProgress = progress[currentCourse.id];
   const isCompleted = courseProgress?.status === 'completed' && courseProgress?.passed;
+  const microcourse = getMicrocourse(currentCourse.id);
+  const hasMicrocourse = Boolean(microcourse);
+  const learning = microcourse?.state(courseProgress);
 
   // 计算已完成课程数
-  const completedLessons = courseProgress?.lesson_id
+  const completedLessons = microcourse ? learning?.completedLessonIds.length || 0 : courseProgress?.lesson_id
     ? currentCourse.lessons.findIndex(l => l.id === courseProgress.lesson_id) + 1
     : 0;
 
   const handleStartLearning = async () => {
     if (!courseId) return;
+    if (hasMicrocourse && courseProgress) {
+      navigate(isCompleted ? `/course/${currentCourse.id}/lesson/${currentCourse.lessons[0].id}` : microcourseResumePath(currentCourse.id, courseProgress, currentCourse.lessons.map(l => l.id)));
+      return;
+    }
     setStartingLesson(true);
 
     // 找到第一个未完成的课程
@@ -74,13 +83,13 @@ export function CourseDetailPage() {
       }
     }
 
-    await updateProgress(courseId, {
+    const saved = await updateProgress(courseId, {
       status: 'in_progress',
       lessonId: targetLesson.id,
       progress: Math.round((currentCourse.lessons.indexOf(targetLesson) / currentCourse.lessons.length) * 100),
     });
 
-    navigate(`/course/${courseId}/lesson/${targetLesson.id}`);
+    if (saved) navigate(`/course/${courseId}/lesson/${targetLesson.id}`);
     setStartingLesson(false);
   };
 
@@ -91,7 +100,7 @@ export function CourseDetailPage() {
   };
 
   const handleStartQuiz = () => {
-    navigate(`/course/${courseId}/quiz`);
+    navigate(`/course/${currentCourse.id}/${hasMicrocourse ? 'microcourse' : 'quiz'}`);
   };
 
   return (
@@ -146,7 +155,7 @@ export function CourseDetailPage() {
           </div>
 
           {/* 课程信息 */}
-          <div className="flex items-center gap-6 text-sm" style={{ color: 'var(--td-text-color-secondary)' }}>
+          <div className="flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--td-text-color-secondary)' }}>
             <span className="flex items-center gap-1.5">
               <BookOpen size={14} />
               {currentCourse.lessons.length} 个课时
@@ -157,11 +166,11 @@ export function CourseDetailPage() {
             </span>
             <span className="flex items-center gap-1.5">
               <FileQuestion size={14} />
-              {currentCourse.quiz.length} 道测验题
+              {hasMicrocourse ? '1 个互动微课' : `${currentCourse.quiz.length} 道测验题`}
             </span>
             <span className="flex items-center gap-1.5">
               <Award size={14} />
-              及格线 {currentCourse.passThreshold} 分
+              {microcourse ? microcourse.summary : `及格线 ${currentCourse.passThreshold} 分`}
             </span>
           </div>
 
@@ -200,7 +209,7 @@ export function CourseDetailPage() {
                 ? '继续学习'
                 : '开始学习'}
             </Button>
-            {(isCompleted || (courseProgress && courseProgress.progress >= 50)) && (
+            {!hasMicrocourse && (isCompleted || (courseProgress && courseProgress.progress >= 50)) && (
               <Button
                 variant="outline"
                 size="large"
@@ -211,6 +220,8 @@ export function CourseDetailPage() {
               </Button>
             )}
           </div>
+          {error && <p role="alert" className="mt-3" style={{ color: 'var(--td-error-color)' }}>{error}</p>}
+          {learning?.legacy && <p className="text-xs mt-3" style={{ color: 'var(--td-text-color-secondary)' }}>原版学习记录已保留{learning.legacy.score !== null ? `（历史成绩 ${learning.legacy.score} 分）` : ''}；新版需完成互动微课。</p>}
         </div>
 
         {/* 课程列表 */}
@@ -220,7 +231,7 @@ export function CourseDetailPage() {
           </h2>
           <div className="space-y-2">
             {currentCourse.lessons.map((lesson, index) => {
-              const isCurrent = courseProgress?.lesson_id === lesson.id;
+              const isCurrent = hasMicrocourse ? index === completedLessons : courseProgress?.lesson_id === lesson.id;
               const isDone = index < completedLessons || isCompleted;
               const isLocked = index > completedLessons && !isCompleted;
 
@@ -236,6 +247,10 @@ export function CourseDetailPage() {
                     opacity: isLocked ? 0.6 : 1,
                   }}
                   onClick={() => handleLessonClick(lesson.id, index)}
+                  role="button"
+                  tabIndex={isLocked ? -1 : 0}
+                  aria-disabled={isLocked}
+                  onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleLessonClick(lesson.id, index); } }}
                 >
                   <div
                     className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -290,7 +305,7 @@ export function CourseDetailPage() {
 
         {/* 测验入口 */}
         <div
-          className="rounded-lg p-5 flex items-center gap-4"
+          className="rounded-lg p-5 flex flex-wrap items-center gap-4"
           style={{
             backgroundColor: 'var(--td-bg-color-container)',
             border: '1px solid var(--td-component-stroke)',
@@ -304,18 +319,22 @@ export function CourseDetailPage() {
           </div>
           <div className="flex-1">
             <h3 className="text-sm font-semibold mb-1" style={{ color: 'var(--td-text-color-primary)' }}>
-              课程考核
+              {microcourse ? `《${microcourse.title}》互动微课` : '课程考核'}
             </h3>
             <p className="text-xs" style={{ color: 'var(--td-text-color-secondary)' }}>
-              {currentCourse.quiz.length} 道题目 · 及格线 {currentCourse.passThreshold} 分 · 可多次尝试
+              {microcourse ? (completedLessons < currentCourse.lessons.length
+                ? `先完成全部文字课时，再进入互动微课（文字 ${completedLessons}/${currentCourse.lessons.length}）`
+                : `文字已学完 · ${microcourse.unit} ${microcourse.completed(courseProgress)}/${microcourse.count} · 全部通过后模块完成`)
+                : `${currentCourse.quiz.length} 道题目 · 及格线 ${currentCourse.passThreshold} 分 · 可多次尝试`}
             </p>
           </div>
           <Button
             theme="primary"
             variant="outline"
             onClick={handleStartQuiz}
+            disabled={hasMicrocourse && completedLessons < currentCourse.lessons.length}
           >
-            {isCompleted ? '重新测验' : '开始测验'}
+            {hasMicrocourse ? (isCompleted ? '重温微课' : completedLessons < currentCourse.lessons.length ? '待解锁' : '进入互动微课') : isCompleted ? '重新测验' : '开始测验'}
           </Button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button, Loading, Tag } from 'tdesign-react';
 import {
   ChevronLeft,
@@ -12,22 +12,28 @@ import {
 import { useTraining } from '../hooks/useTraining';
 import { ICON_MAP } from '../utils/iconMap';
 import { SimpleMarkdown } from './SimpleMarkdown';
+import { resolveCourseId } from '../data/courses';
+import { getMicrocourse, microcourseResumePath } from '../utils/courseMicrocourses';
 
 export function LessonView() {
   const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>();
   const navigate = useNavigate();
-  const { currentCourse, progress, loading, fetchCourse, updateProgress } = useTraining();
+  const { currentCourse, progress, loading, error, fetchCourse, updateProgress, saveMicrocourseStep } = useTraining();
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (courseId && !currentCourse) {
+    if (courseId) {
       fetchCourse(courseId);
     }
-  }, [courseId, currentCourse, fetchCourse]);
+  }, [courseId, fetchCourse]);
+
+  useEffect(() => {
+    document.querySelector('.lesson-scroll-container')?.scrollTo({ top: 0 });
+  }, [lessonId]);
 
   // 更新进度
   useEffect(() => {
-    if (courseId && lessonId && currentCourse) {
+    if (courseId && lessonId && currentCourse && currentCourse.id === resolveCourseId(courseId) && !getMicrocourse(currentCourse.id)) {
       const lessonIndex = currentCourse.lessons.findIndex(l => l.id === lessonId);
       if (lessonIndex >= 0) {
         const prog = Math.round(((lessonIndex + 1) / currentCourse.lessons.length) * 100);
@@ -48,10 +54,10 @@ export function LessonView() {
     );
   }
 
-  if (!currentCourse) {
+  if (!currentCourse || currentCourse.id !== resolveCourseId(courseId || '')) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <Button onClick={() => navigate('/')}>返回首页</Button>
+        <div>{error && <p role="alert">{error}</p>}<Button onClick={() => navigate('/')}>返回首页</Button></div>
       </div>
     );
   }
@@ -66,6 +72,12 @@ export function LessonView() {
   }
 
   const lesson = currentCourse.lessons[lessonIndex];
+  const microcourse = getMicrocourse(currentCourse.id);
+  const courseProgress = progress[currentCourse.id];
+  const completedCount = microcourse?.state(courseProgress)?.completedLessonIds.length || 0;
+  if (microcourse && courseProgress && lessonIndex > completedCount) {
+    return <Navigate replace to={microcourseResumePath(currentCourse.id, courseProgress, currentCourse.lessons.map(l => l.id))} />;
+  }
   const Icon = ICON_MAP[currentCourse.icon] || BookOpen;
   const courseTone = 'var(--td-brand-color)';
   const isLastLesson = lessonIndex === currentCourse.lessons.length - 1;
@@ -76,14 +88,21 @@ export function LessonView() {
     if (!courseId) return;
     setUpdating(true);
 
+    if (microcourse && lessonId) {
+      const saved = await saveMicrocourseStep(currentCourse.id, 'lesson', lessonId);
+      if (saved) navigate(isLastLesson ? `/course/${currentCourse.id}/microcourse` : `/course/${currentCourse.id}/lesson/${nextLesson!.id}`);
+      setUpdating(false);
+      return;
+    }
+
     if (isLastLesson) {
       // 最后一课，更新进度为100%并跳转到测验
-      await updateProgress(courseId, {
+      const saved = await updateProgress(courseId, {
         status: 'in_progress',
         lessonId,
         progress: 100,
       });
-      navigate(`/course/${courseId}/quiz`);
+      if (saved) navigate(`/course/${courseId}/quiz`);
     } else if (nextLesson) {
       navigate(`/course/${courseId}/lesson/${nextLesson.id}`);
     }
@@ -91,7 +110,7 @@ export function LessonView() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="lesson-scroll-container flex-1 overflow-y-auto">
       <div className="max-w-3xl mx-auto p-6 lg:p-8">
         {/* 返回按钮 */}
         <Button
@@ -172,7 +191,8 @@ export function LessonView() {
         </div>
 
         {/* 导航按钮 */}
-        <div className="flex items-center justify-between gap-4">
+        {error && <p role="alert" className="mb-4" style={{ color: 'var(--td-error-color)' }}>{error}</p>}
+        <div className="flex flex-wrap items-center justify-between gap-4">
           {prevLesson ? (
             <Button
               variant="outline"
@@ -208,7 +228,7 @@ export function LessonView() {
             suffix={!isLastLesson ? <ChevronRight size={18} /> : <CheckCircle size={18} />}
             onClick={handleComplete}
           >
-            {isLastLesson ? '完成学习，前往测验' : '下一课'}
+            {microcourse ? (isLastLesson ? '文字已学完，进入互动微课' : '已读完，下一课') : isLastLesson ? '完成学习，前往测验' : '下一课'}
           </Button>
         </div>
       </div>
