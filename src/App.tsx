@@ -171,6 +171,7 @@ function AppContent() {
   return (
     <div
       className="app-shell flex h-screen w-screen"
+      data-learning={location.pathname.endsWith('/microcourse') || undefined}
       style={{ backgroundColor: 'var(--td-bg-color-page)' }}
     >
       {/* 主内容区 */}

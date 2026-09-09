@@ -6,6 +6,7 @@ import { APP_CONFIG } from './config';
 import 'tdesign-react/esm/style/index.js';
 import '../assets/design-tokens.css';
 import './index.css';
+import './learning-theme.css';
 
 // 设置页面标题
 document.title = APP_CONFIG.name;

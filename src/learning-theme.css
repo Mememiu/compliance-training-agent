@@ -1,0 +1,167 @@
+/* Local visual candidate. Shared roles align the host with the existing courses;
+   original course assets, card colors and motion remain untouched. */
+:root {
+  color-scheme: light;
+  --room-canvas: #f5f7fc;
+  --room-surface: #ffffff;
+  --room-muted-surface: #edf1f8;
+  --room-ink: #192c48;
+  --room-secondary: #52647b;
+  --room-line: #dce3ee;
+  --room-action: #4f46e5;
+  --room-action-hover: #3931b8;
+  --room-action-text: #ffffff;
+  --room-action-wash: #ecebff;
+
+  --color-primary: 79 70 229;
+  --color-primary-foreground: 255 255 255;
+  --color-background: 245 247 252;
+  --color-foreground: 25 44 72;
+  --color-muted: 237 241 248;
+  --color-muted-foreground: 82 100 123;
+  --color-border: 220 227 238;
+  --color-input: 255 255 255;
+  --color-card: 255 255 255;
+  --color-card-foreground: 25 44 72;
+  --color-accent: 79 70 229;
+  --color-accent-foreground: 255 255 255;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --room-canvas: #111b2c;
+  --room-surface: #1b2940;
+  --room-muted-surface: #25344c;
+  --room-ink: #e7edf7;
+  --room-secondary: #b5c3d8;
+  --room-line: #3b4d68;
+  --room-action: #b5afff;
+  --room-action-hover: #cdc9ff;
+  --room-action-text: #19203f;
+  --room-action-wash: #303052;
+  --color-primary: 181 175 255;
+  --color-primary-foreground: 25 32 63;
+  --color-background: 17 27 44;
+  --color-foreground: 231 237 247;
+  --color-muted: 37 52 76;
+  --color-muted-foreground: 181 195 216;
+  --color-border: 59 77 104;
+  --color-input: 27 41 64;
+  --color-card: 27 41 64;
+  --color-card-foreground: 231 237 247;
+  --color-accent: 181 175 255;
+  --color-accent-foreground: 25 32 63;
+}
+
+/* Both theme selectors must outrank the original :root.dark declarations. */
+:root, :root.dark {
+  --td-brand-color: var(--room-action);
+  --td-brand-color-hover: var(--room-action-hover);
+  --td-brand-color-active: var(--room-action-hover);
+  --td-brand-color-light: var(--room-action-wash);
+  --td-bg-color-page: var(--room-canvas);
+  --td-bg-color-container: var(--room-surface);
+  --td-bg-color-container-hover: var(--room-muted-surface);
+  --td-bg-color-container-active: var(--room-muted-surface);
+  --td-bg-color-secondarycontainer: var(--room-muted-surface);
+  --td-bg-color-secondarycontainer-hover: var(--room-line);
+  --td-bg-color-component: var(--room-muted-surface);
+  --td-bg-color-component-hover: var(--room-line);
+  --td-bg-color-component-disabled: var(--room-muted-surface);
+  --td-text-color-primary: var(--room-ink);
+  --td-text-color-secondary: var(--room-secondary);
+  --td-text-color-placeholder: var(--room-secondary);
+  --td-text-color-anti: var(--room-action-text);
+  --td-border-level-1-color: var(--room-line);
+  --td-border-level-2-color: var(--room-line);
+  --td-component-stroke: var(--room-line);
+  --td-component-border: var(--room-line);
+  --score-paper: var(--room-canvas);
+  --score-paper-bright: var(--room-surface);
+  --score-ink: var(--room-ink);
+  --score-ink-deep: var(--room-ink);
+  --score-steel: var(--room-line);
+  --score-lime: var(--room-action);
+  --score-lime-deep: var(--room-action-hover);
+}
+
+::selection { background: var(--room-action-wash); color: var(--room-ink); }
+input, textarea { caret-color: var(--room-action); }
+* { scrollbar-color: var(--room-line) var(--room-canvas); }
+
+.app-topnav__item {
+  background: transparent;
+  color: var(--room-secondary);
+}
+.app-topnav__item:hover {
+  background: var(--room-muted-surface);
+  border-color: transparent;
+}
+.app-topnav__item.is-active {
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgb(25 44 72 / 0.06);
+}
+.app-header .t-button--variant-outline {
+  border-color: var(--room-line) !important;
+}
+.app-header .t-button--variant-text:hover,
+.app-header .t-button--variant-outline:hover {
+  background: var(--room-muted-surface) !important;
+}
+.training-dashboard__dot { box-shadow: none; }
+.training-welcome__description,
+.training-welcome h1 > .training-welcome__title-line--secondary,
+.training-dashboard__muted,
+.training-dashboard__signal-label,
+.training-course-controls,
+.training-welcome__eyebrow,
+.training-welcome__caption,
+.training-summary__label,
+.training-summary__detail,
+.training-summary__assistant small,
+.training-section-heading p,
+.training-section-heading__meta,
+.training-owner-note p,
+.training-owner-note__code,
+.app-session-menu__empty { color: var(--room-secondary); }
+.training-owner-note__mark { color: var(--room-action-text); }
+.app-session-menu__row:hover { background: var(--room-muted-surface); }
+.app-session-menu__row.is-active { background: var(--room-action-wash); }
+
+.training-action--primary {
+  background: var(--room-action);
+  border-color: transparent;
+  color: var(--room-action-text);
+  box-shadow: 0 7px 18px rgb(25 44 72 / 0.12);
+}
+.training-action--primary:hover { background: var(--room-action-hover); }
+.training-summary__assistant {
+  background: var(--room-action-wash);
+  color: var(--room-ink);
+}
+.training-summary__assistant:hover { background: var(--room-muted-surface); }
+.course-microcourse__toolbar {
+  padding-block: 10px;
+  color: var(--room-secondary);
+}
+.course-microcourse__toolbar h1 { color: var(--room-ink); }
+
+/* Preserve viewport-centered pills while giving the lesson more vertical room. */
+@media (min-width: 768px) {
+  .app-shell[data-learning='true'] .app-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0;
+    min-height: 68px;
+    padding: 12px 24px;
+  }
+  .app-shell[data-learning='true'] .app-header__main { display: contents; }
+  .app-shell[data-learning='true'] .app-header__identity { grid-column: 1; grid-row: 1; }
+  .app-shell[data-learning='true'] .app-header__nav-row { grid-column: 2; grid-row: 1; }
+  .app-shell[data-learning='true'] .app-header__tools { grid-column: 3; grid-row: 1; justify-self: end; }
+}
+@media (max-width: 640px) {
+  .app-shell[data-learning='true'] .app-header { gap: 6px; padding-block: 8px; }
+  .course-microcourse__toolbar { padding-block: 8px; }
+}
