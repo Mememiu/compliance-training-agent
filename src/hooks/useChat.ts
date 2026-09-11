@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Message, ToolCall, PermissionRequest, PermissionMode, Session, CustomAgent, ContentBlock } from '../types';
+import { Message, PermissionRequest, PermissionMode, Session, CustomAgent } from '../types';
 import { COURSES } from '../data/courses';
 
 const STORAGE_KEYS = {
@@ -159,7 +159,6 @@ export function useChat(options: UseChatOptions) {
     if (!messageContent.trim() || isLoading) return;
 
     let sessionId = currentSessionId;
-    let currentAgentId = currentSession?.agentId || 'default';
 
     // 如果没有当前会话，创建新会话
     if (!sessionId && newChatOptions) {
@@ -183,7 +182,6 @@ export function useChat(options: UseChatOptions) {
       });
       setCurrentSessionId(newSession.id);
       sessionId = newSession.id;
-      currentAgentId = newSession.agentId || 'default';
 
       updateSessionModel(newSession.id, selectedModel);
 
@@ -237,7 +235,6 @@ export function useChat(options: UseChatOptions) {
 
     // 搜索本地知识库
     const fullContent = searchKnowledgeBase(messageContent);
-    const contentBlocks: ContentBlock[] = [{ type: 'text', text: fullContent }];
 
     // 模拟流式输出
     const words = fullContent.split('');

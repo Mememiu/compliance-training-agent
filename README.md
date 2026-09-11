@@ -1,175 +1,169 @@
-# Web Agent
+# 培训室
 
-一个基于 CodeBuddy Agent SDK 构建的 Web Agent 应用模板。
+一个面向员工的轻量培训空间，把课程阅读、互动微课与学习进度放在一起，让知识不只停留在文字里。
 
-## 特性
+目前以数据隐私、信息安全、商业道德和职场行为为示例，也可以根据需要扩展为入职培训、业务知识、公司制度等不同主题的学习空间。「培训室」只是当前名称，可以自行更换。
 
-- 💬 **流式对话** - 实时显示 AI 回复
-- 🔧 **工具调用** - 可视化展示 Agent 工具使用
-- 🔒 **权限控制** - 支持多种权限模式
-- 📝 **会话管理** - 多会话切换和持久化
-- 🎨 **主题切换** - 支持深色/浅色主题
-- 🤖 **自定义 Agent** - 创建和管理多个 Agent 配置
+**在线体验：** https://mememiu.github.io/compliance-training-agent/
 
-## 技术栈
+## 开源版本说明
 
-- **后端**: Node.js + Express + TypeScript
-- **前端**: React 18 + TypeScript + Vite
-- **UI**: TDesign React 组件库
-- **AI**: CodeBuddy Agent SDK
-- **数据库**: SQLite (better-sqlite3)
+> **本 GitHub 仓库及其在线演示为开源展示的版本，并非企业内部实际使用版本，开源版本不含账号管理、课程上传以及AI配置功能**
+>
+> 本项目用于展示培训产品的交互设计、课程组织方式与技术实现，不代表任何企业的内部系统、正式制度或实际培训要求。你可以根据自身需要修改项目名称、界面文案、课程内容、情境案例、题目和品牌配色。
 
-## 快速开始
+使用或改编时，请注意：
 
-### 1. 安装依赖
+- 课程中的公司称谓、角色、流程、金额标准、申报时限及联系方式等，应作为待核对、可替换的示例内容，不应直接当作所在组织的现行制度。
+- 涉及法规和制度的内容需要结合适用地区、具体业务与组织要求审核；课程和学习助手的回答不替代专业意见或正式制度文件。
+- 如用于内部培训，请替换不适用的文案，并自行完善身份认证、权限、记录管理与部署安全等能力。
+- 请勿将企业机密、真实员工资料、访问密钥或未经授权的素材提交到公开仓库。
 
-```bash
-npm install
+## 可以体验什么
+
+- **课程空间**：集中查看课程、学习状态与下一步学习入口；桌面端支持居中堆叠的课程卡片切换。
+- **文字学习**：按课时阅读课程内容，并明确确认本节学习完成。
+- **互动微课**：完成文字学习后，进入场景探索、对话、判断与复盘练习。
+- **进度续学**：在当前浏览器保存课程与微课进度，支持返回后继续学习。
+- **学习助手**：根据本地课程知识和预设内容匹配回答，保留会话记录。
+- **界面与配置**：胶囊式顶部导航、浅色／深色主题，以及学习助手配置入口。
+
+### 当前示例课程
+
+| 课程 | 对应互动微课 | 完成方式 |
+| --- | --- | --- |
+| 数据隐私与信息安全 | 多停一秒 | 完成六个区域的隐患探索与自测 |
+| 反腐败与商业道德 | 多停一秒·廉洁有度 | 完成可疑费用、利益冲突与礼品处置三个情境 |
+| 劳动合规与职场行为 | 多停一秒·尊重有界 | 完成三段职场对话与回应练习 |
+
+三个模块均遵循以下流程：
+
+```text
+依次阅读并确认文字课时 → 进入互动微课 → 完成练习并成功保存 → 模块完成
 ```
 
-### 2. 启动开发服务器
+仅打开页面不算完成。仓库保留了测验相关代码和历史成绩兼容逻辑，但上述模块以文字学习与互动微课共同完成为准。
+
+## 公开版的能力边界
+
+### 纯前端即可体验
+
+当前 GitHub Pages 版本为静态前端，课程与微课不依赖后端服务，使用时不需要配置模型密钥。
+
+界面中的「AI 学习助手」目前使用**本地知识条目与关键词匹配**，逐字显示回答；它不是已连接在线大模型的企业知识库问答服务。修改助手名称或提示词配置，也不等于完成真实模型接入。
+
+### 学习记录保存在当前浏览器
+
+课程进度、微课状态、对话及部分设置保存在浏览器 `localStorage` 中，不提供账号级跨设备同步。清除站点数据、更换浏览器或使用不同站点地址，可能导致无法继续原有记录；线上站点与本地预览也不共用进度。
+
+当前版本没有企业级人员管理、培训派发、集中成绩报表或服务器端防篡改成绩认证，不宜直接将浏览器中的完成状态当作正式考核凭证。
+
+### 内容维护以源码为主
+
+「编辑设置」当前主要管理学习助手配置，并不是完整的可视化课程编辑或审批发布后台。课程负责人或开发者可通过修改源码维护内容；可视化课程管理可以在此基础上继续开发。
+
+## 本地运行
+
+### 环境准备
+
+使用 Node.js 22 或 24 与 npm。项目包含 `better-sqlite3` 原生依赖，若当前平台没有可用预编译包，安装时还需要对应平台的编译工具。
 
 ```bash
+git clone https://github.com/Mememiu/compliance-training-agent.git
+cd compliance-training-agent
+npm ci
+```
+
+### 启动培训室前端
+
+```bash
+npm run dev:client
+```
+
+默认访问：`http://localhost:5173/compliance-training-agent/`。若端口被占用，以终端输出的实际地址为准。
+
+### 构建与预览
+
+```bash
+# TypeScript 检查与生产构建
+npm run build
+
+# 本地查看构建产物
+npm run preview
+
+# 运行自动化测试
+npm test
+```
+
+构建产物位于 `dist/`，预览地址以终端输出为准。项目没有配置 `npm start` 命令。
+
+### 可选的后端扩展
+
+`server/` 保留了早期 Agent 模板的 Express、Agent SDK 与 SQLite 服务代码，供二次开发参考；当前公开版前端的数据流并未接入这些后端接口。
+
+```bash
+# 同时启动前端与后端
 npm run dev
+
+# 单独启动后端（监听端口默认 3000）
+npm run dev:server
 ```
 
-这会同时启动前端（端口 5173）和后端（端口 3000）
+接入真实模型时，需要自行完成前端 API 对接、服务端凭据配置、访问控制和部署。后端读取 `CODEBUDDY_API_KEY`、`CODEBUDDY_AUTH_TOKEN`、`CODEBUDDY_BASE_URL` 等进程环境变量；当前启动脚本没有自动加载 `.env` 的配置，仅创建该文件不会自动生效。不要把密钥写入前端或静态构建产物。
 
-### 3. 访问应用
+## 按自己的需要修改
 
-打开浏览器访问 https://mememiu.github.io/compliance-training-agent/
+| 想修改的内容 | 主要位置 |
+| --- | --- |
+| 名称、应用描述等基础信息 | `src/config.ts` |
+| 品牌标识 | `public/brand/` |
+| 背景、按钮、文字等共享配色 | `src/learning-theme.css` |
+| 页面布局与基础样式 | `src/index.css`、`src/components/` |
+| 课程名称、介绍、文字课时、知识要点与题目 | `src/data/courses.ts` |
+| 学习助手的本地知识条目与回答文案 | `src/hooks/useChat.ts` |
+| 课程和微课之间的映射、说明与完成协议 | `src/utils/courseMicrocourses.ts` |
+| 微课页面、素材与桥接脚本 | `public/microcourses/privacy/`、`respect/`、`integrity/` |
+| 课程与微课的进度校验规则 | `src/utils/*Progress.ts`、`src/hooks/useTraining.ts` |
+| 部署路径 | `vite.config.ts` 中的 `base` |
+
+修改内容时，建议同时核对课程正文、题目解析、微课反馈与学习助手回答，避免同一制度出现不同说法。学习助手除了从课程提取条目，也包含独立的预设文案，不能只改课程文件。
+
+微课包含来源记录、导入脚本和独立的完成状态协议。若替换微课或调整课程／课时 ID，请同步检查进度兼容、消息协议、导入校验与测试，不要仅替换 HTML 后就假定能正确计入完成状态。相关说明见 `docs/privacy-microcourse/`、`docs/respect-microcourse/` 和 `docs/integrity-microcourse/`。
 
 ## 项目结构
 
-```
-web-agent/
-├── server/                    # 后端服务
-│   ├── index.ts              # Express 服务器
-│   └── db.ts                 # 数据库操作
-├── src/                      # 前端源码
-│   ├── components/           # React 组件
-│   ├── hooks/                # 自定义 Hooks
-│   ├── pages/                # 页面组件
-│   ├── types.ts              # 类型定义
-│   ├── config.ts             # 应用配置
-│   └── App.tsx               # 应用入口
-├── data/                     # 数据存储
-│   └── chat.db               # SQLite 数据库
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── README.md                 # 项目说明
-└── DEVELOPMENT.md            # 二次开发指南
-```
-
-## 核心功能
-
-### Agent SDK 集成
-
-- 使用 `query()` API 发送消息并接收流式响应
-- 使用 `unstable_v2_createSession()` 创建和管理 Agent 会话
-- 使用 `unstable_v2_authenticate()` 处理身份认证
-- 支持会话恢复（使用 `resume` 参数）
-
-### 权限控制
-
-支持四种权限模式：
-- `default` - 每次工具调用需要确认
-- `acceptEdits` - 自动接受编辑类操作
-- `plan` - 计划模式（只读）
-- `bypassPermissions` - 跳过所有权限检查
-
-### 流式响应
-
-使用 Server-Sent Events (SSE) 实现实时流式响应：
-- 文本内容流式输出
-- 工具调用实时展示
-- 权限请求实时弹窗
-
-### 数据持久化
-
-使用 SQLite 存储：
-- 会话信息和配置
-- 消息历史记录
-- Agent SDK 的 session_id（用于恢复对话）
-
-## API 端点
-
-| 端点 | 方法 | 描述 |
-|------|------|------|
-| `/api/health` | GET | 健康检查 |
-| `/api/check-login` | GET | 检查 CodeBuddy 登录状态 |
-| `/api/models` | GET | 获取可用模型列表 |
-| `/api/sessions` | GET | 获取所有会话 |
-| `/api/sessions` | POST | 创建新会话 |
-| `/api/sessions/:id` | GET | 获取单个会话 |
-| `/api/sessions/:id` | PATCH | 更新会话 |
-| `/api/sessions/:id` | DELETE | 删除会话 |
-| `/api/chat` | POST | 发送消息（SSE 流式响应） |
-| `/api/permission-response` | POST | 响应权限请求 |
-
-## 环境要求
-
-- Node.js 18+
-- npm 或 yarn
-
-## 配置
-
-### 方式一：环境变量配置
-
-创建 `.env` 文件：
-
-```bash
-PORT=3000
-CODEBUDDY_API_KEY=your_api_key
-CODEBUDDY_AUTH_TOKEN=your_auth_token
-CODEBUDDY_BASE_URL=https://api.example.com
-CODEBUDDY_INTERNET_ENVIRONMENT=external
+```text
+compliance-training-agent/
+├── src/
+│   ├── components/          # 课程、导航、微课容器、助手与设置界面
+│   ├── pages/               # 聊天页面
+│   ├── data/                # 课程及部分情境数据
+│   ├── hooks/               # 本地进度、对话、主题与配置管理
+│   ├── utils/               # 微课映射、消息与进度校验
+│   ├── config.ts            # 应用名称与描述
+│   ├── learning-theme.css   # 培训室共享主题
+│   └── App.tsx              # 应用入口与路由
+├── public/
+│   ├── brand/               # 品牌标识
+│   └── microcourses/        # 可独立加载的微课与素材
+├── server/                  # 可选的 Agent 后端扩展代码
+├── scripts/                 # 微课导入与浏览器验证脚本
+├── tests/                   # 课程流程、桥接与进度回归测试
+├── docs/                    # 设计、来源、集成与验证记录
+├── vite.config.ts           # 开发与静态部署配置
+└── package.json             # 依赖与运行命令
 ```
 
-### 方式二：使用 CodeBuddy CLI 登录
+主要技术：React 18、TypeScript、Vite、React Router、TDesign React、Tailwind CSS、GSAP 与 Motion。可选后端使用 Express、`@tencent-ai/agent-sdk` 和 SQLite。
 
-```bash
-# 登录 CodeBuddy
-codebuddy login
+## 静态部署
 
-# 启动应用（会自动使用 CLI 的登录信息）
-npm run dev
-```
+当前在线演示由 GitHub Pages 发布，源码位于 `main`，静态产物位于 `gh-pages`。构建完成后，将 `dist/` 的内容发布到静态托管服务即可；更新 `main` 源码不等于已经更新在线演示。
 
-### 方式三：Web UI 配置
+默认 `base` 为 `/compliance-training-agent/`。若更换仓库名、改用其他子路径或部署到域名根目录，请先修改 `vite.config.ts` 中的 `base`，再重新构建，并检查微课与素材地址是否正确。课程导航使用 Hash 路由。
 
-在应用的设置页面中配置环境变量（仅在当前服务器进程有效）。
+## 文档与许可说明
 
-## 开发
-
-```bash
-# 开发模式（同时启动前后端）
-npm run dev
-
-# 单独启动后端
-npm run dev:server
-
-# 单独启动前端
-npm run dev:client
-
-# 构建生产版本
-npm run build
-
-# 运行生产版本
-npm start
-```
-
-## 二次开发
-
-如果你想基于这个模板进行定制化开发，请查看 [DEVELOPMENT.md](./DEVELOPMENT.md) 获取详细指南，包括：
-
-- 项目架构详解
-- 核心功能实现原理
-- 10+ 常见定制场景示例
-- API 完整参考
-- 调试和部署指南
-
-## License
-
-MIT
+- `docs/` 记录了微课来源、适配协议与各次交付验证；其中部分脚本依赖开发者本机路径，复用前需按自己的环境调整。
+- `DEVELOPMENT.md` 保留了早期 Web Agent 模板的开发说明，部分内容与当前纯前端培训流程不同，请以当前源码和本 README 为准。
+- 项目沿用原 README 的 **MIT** 许可标注；仓库目前尚未附独立的 `LICENSE` 文件。第三方依赖、字体、插画及微课素材的许可与来源记录需分别核对，项目代码的许可标注不等于所有素材均可无条件使用。

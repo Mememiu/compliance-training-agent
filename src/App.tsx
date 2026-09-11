@@ -38,7 +38,7 @@ function App() {
 function AppContent() {
   const navigate = useNavigate();
   const { sessionId: urlSessionId } = useParams<{ sessionId: string }>();
-  const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>();
+  const { courseId } = useParams<{ courseId: string }>();
   const location = useLocation();
 
   const isSettingsPage = location.pathname === '/settings';
@@ -57,7 +57,6 @@ function AppContent() {
     setCurrentSessionId,
     currentSession,
     sessionModels,
-    fetchSessions,
     deleteSession,
     updateSessionModel,
     addSession,

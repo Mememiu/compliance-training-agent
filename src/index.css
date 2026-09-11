@@ -868,18 +868,6 @@ select {
 }
 
 @media (max-width: 768px) {
-  .app-sidebar {
-    width: 0 !important;
-  }
-
-  .app-sidebar.is-open {
-    position: absolute;
-    z-index: 20;
-    inset: 0 auto 0 0;
-    width: 260px !important;
-    box-shadow: 12px 0 28px rgb(24 33 38 / 0.14);
-  }
-
   .training-hero {
     padding: 20px !important;
   }
@@ -1180,25 +1168,6 @@ select {
 .app-header .t-button--variant-outline:hover {
   color: var(--score-ink) !important;
   background: rgb(252 251 247 / 0.76) !important;
-}
-
-.app-sidebar {
-  background: var(--score-paper-bright) !important;
-  border-right: 1px solid rgb(24 33 38 / 0.11);
-}
-
-.app-sidebar__brand {
-  border-bottom: 1px solid rgb(24 33 38 / 0.09);
-}
-
-.app-sidebar__brand > div > div:first-child {
-  background: var(--score-ink) !important;
-  border-radius: 9px !important;
-}
-
-.app-sidebar__brand > div > span {
-  color: var(--score-ink) !important;
-  font-family: 'Noto Serif SC', 'Songti SC', serif;
 }
 
 /* ===== Craft-inspired training room workspace ===== */

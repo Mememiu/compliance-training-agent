@@ -13,15 +13,11 @@ import {
   Globe, 
   Wrench,
   FileText,
-  Code,
   FolderSearch,
   Edit,
   Trash2,
   Eye,
   Image,
-  MessageSquare,
-  Database,
-  Settings,
   Zap
 } from 'lucide-react';
 import { ToolCall } from '../types';
@@ -172,7 +168,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
   }, [toolCalls.length, hasRunning, allCompleted, isStreaming]);
 
   // 渲染单个工具调用详情
-  const renderToolDetail = (tool: ToolCall, index: number) => {
+  const renderToolDetail = (tool: ToolCall) => {
     const isRunning = tool.status === 'running';
     const isCompleted = tool.status === 'completed';
     const isError = tool.status === 'error' || tool.isError;
@@ -714,7 +710,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
           </div>
         )}
         
-        {renderToolDetail(tool, index)}
+        {renderToolDetail(tool)}
       </div>
     );
   };
@@ -726,7 +722,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
     if (tool.status === 'running') {
       return (
         <div className="w-full">
-          {renderToolDetail(tool, 0)}
+          {renderToolDetail(tool)}
         </div>
       );
     }
@@ -736,7 +732,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
         {renderCollapseBar()}
         {isExpanded && (
           <div className="space-y-2 pl-2">
-            {renderToolDetail(tool, 0)}
+            {renderToolDetail(tool)}
           </div>
         )}
       </div>
@@ -757,7 +753,7 @@ export function ToolCallsCollapse({ toolCalls, isStreaming = false }: ToolCallsC
       {renderCollapseBar()}
       {isExpanded && (
         <div className="space-y-2 pl-2">
-          {toolCalls.map((tool, index) => renderToolDetail(tool, index))}
+          {toolCalls.map(tool => renderToolDetail(tool))}
         </div>
       )}
     </div>

@@ -6,3 +6,8 @@ dist/
 .env.*
 .DS_Store
 *.log
+
+# Generated Vite config modules and legacy declaration output
+/vite.config.ts.timestamp-*.mjs
+/vite.config.d.ts
+/server/index.d.ts

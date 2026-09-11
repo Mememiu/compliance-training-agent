@@ -12,7 +12,6 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useTraining } from '../hooks/useTraining';
-import { ICON_MAP } from '../utils/iconMap';
 import { QuizSubmissionResult } from '../types';
 
 export function QuizView() {
@@ -45,7 +44,6 @@ export function QuizView() {
     );
   }
 
-  const Icon = ICON_MAP[currentCourse.icon] || FileQuestion;
   const courseTone = 'var(--td-brand-color)';
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === currentCourse.quiz.length;
@@ -71,7 +69,6 @@ export function QuizView() {
       <QuizResultView
         result={result}
         course={currentCourse}
-        Icon={Icon}
         onRetry={handleRetry}
         onBackToCourse={() => navigate(`/course/${courseId}`)}
         onBackToDashboard={() => navigate('/')}
@@ -231,14 +228,12 @@ export function QuizView() {
 function QuizResultView({
   result,
   course,
-  Icon,
   onRetry,
   onBackToCourse,
   onBackToDashboard,
 }: {
   result: QuizSubmissionResult;
   course: any;
-  Icon: any;
   onRetry: () => void;
   onBackToCourse: () => void;
   onBackToDashboard: () => void;
