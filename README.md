@@ -4,7 +4,10 @@
 
 目前以数据隐私、信息安全、商业道德和职场行为为示例，也可以根据需要扩展为入职培训、业务知识、公司制度等不同主题的学习空间。「培训室」只是当前名称，可以自行更换。
 
-**在线体验：** https://mememiu.github.io/compliance-training-agent/
+**在线体验：**
+
+- GitHub Pages：https://mememiu.github.io/compliance-training-agent/
+- PocketBay：https://app-k0nz.pocketbay.app/index.html
 
 ## 开源版本说明
 
@@ -80,7 +83,7 @@ npm ci
 npm run dev:client
 ```
 
-默认访问：`http://localhost:5173/compliance-training-agent/`。若端口被占用，以终端输出的实际地址为准。
+默认访问：`http://localhost:5173/`。若端口被占用，以终端输出的实际地址为准。
 
 ### 构建与预览
 
@@ -124,7 +127,7 @@ npm run dev:server
 | 课程和微课之间的映射、说明与完成协议 | `src/utils/courseMicrocourses.ts` |
 | 微课页面、素材与桥接脚本 | `public/microcourses/privacy/`、`respect/`、`integrity/` |
 | 课程与微课的进度校验规则 | `src/utils/*Progress.ts`、`src/hooks/useTraining.ts` |
-| 部署路径 | `vite.config.ts` 中的 `base` |
+| 部署路径 | `vite.config.ts` 中的相对 `base` 可兼容域名根目录和子目录 |
 
 修改内容时，建议同时核对课程正文、题目解析、微课反馈与学习助手回答，避免同一制度出现不同说法。学习助手除了从课程提取条目，也包含独立的预设文案，不能只改课程文件。
 
@@ -160,7 +163,13 @@ compliance-training-agent/
 
 当前在线演示由 GitHub Pages 发布，源码位于 `main`，静态产物位于 `gh-pages`。构建完成后，将 `dist/` 的内容发布到静态托管服务即可；更新 `main` 源码不等于已经更新在线演示。
 
-默认 `base` 为 `/compliance-training-agent/`。若更换仓库名、改用其他子路径或部署到域名根目录，请先修改 `vite.config.ts` 中的 `base`，再重新构建，并检查微课与素材地址是否正确。课程导航使用 Hash 路由。
+默认 `base` 为 `./`，可兼容 GitHub Pages 子目录和独立域名根目录。若改为绝对路径，请同步检查微课与品牌素材地址。课程导航使用 Hash 路由。
+
+## PocketBay 部署
+
+PocketBay 版本同时发布静态页面和可选的 Express 后端。当前公开入口为 `https://app-k0nz.pocketbay.app/index.html`，接口健康检查为 `/api/health`。
+
+SQLite 会优先使用 PocketBay 注入的 `POCKETBAY_DATA_DIR`，将数据库放在 `/data` 持久卷；本地开发时仍写入仓库内的 `data/`。生产使用前仍需补充身份认证、权限控制、凭据管理与数据合规措施。
 
 ## 文档与许可说明
 

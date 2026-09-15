@@ -6,12 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 数据库文件路径
-const dbPath = path.join(__dirname, '..', 'data', 'chat.db');
+// PocketBay 会注入持久卷目录；本地开发仍使用仓库内的 data 目录。
+const dataDir = process.env.POCKETBAY_DATA_DIR || path.join(__dirname, '..', 'data');
+const dbPath = path.join(dataDir, 'chat.db');
 
 // 确保 data 目录存在
 import fs from 'fs';
-const dataDir = path.dirname(dbPath);
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
